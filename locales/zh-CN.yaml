@@ -62,6 +62,9 @@ panel:
   pureMultiTagsCache: 页签持久化
 menus:
   pureHome: 首页
+  pureCounterparties: 对手方
+  pureHistorical: 交易历史
+  pureMarket: 交易市场
   pureLogin: 登录
   pureAbnormal: 异常页面
   pureFourZeroFour: "404"

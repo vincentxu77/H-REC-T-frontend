@@ -28,7 +28,7 @@ const getLabel = computed(
         Number(noticesNum) !== 0 && 'mr-[10px]'
       ]"
     >
-      <el-badge :value="Number(noticesNum) === 0 ? '' : noticesNum" :max="99">
+      <el-badge :value="Number(noticesNum) === 0 ? '' : ''" :max="99">
         <span class="header-notice-icon">
           <IconifyIconOffline :icon="BellIcon" />
         </span>

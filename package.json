@@ -1,6 +1,6 @@
 {
-  "name": "pure-admin-thin",
-  "version": "5.9.0",
+  "name": "h-rec-t",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -22,8 +22,6 @@
     "preinstall": "npx only-allow pnpm"
   },
   "keywords": [
-    "pure-admin-thin",
-    "vue-pure-admin",
     "element-plus",
     "tailwindcss",
     "pure-admin",
@@ -33,20 +31,7 @@
     "vite",
     "esm"
   ],
-  "homepage": "https://github.com/pure-admin/pure-admin-thin/tree/i18n",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/pure-admin/pure-admin-thin.git"
-  },
-  "bugs": {
-    "url": "https://github.com/pure-admin/vue-pure-admin/issues"
-  },
   "license": "MIT",
-  "author": {
-    "name": "xiaoxian521",
-    "email": "pureadmin@163.com",
-    "url": "https://github.com/xiaoxian521"
-  },
   "dependencies": {
     "@pureadmin/descriptions": "^1.2.1",
     "@pureadmin/table": "^3.2.1",
