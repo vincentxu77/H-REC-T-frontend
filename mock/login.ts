@@ -10,7 +10,7 @@ export default defineFakeRoute([
         return {
           success: true,
           data: {
-            avatar: "/user.jpg",
+            avatar: "/H-REC-T-frontend/user.jpg",
             username: "admin",
             nickname: "admin",
             // 一个用户可能有多个角色
@@ -26,7 +26,7 @@ export default defineFakeRoute([
         return {
           success: true,
           data: {
-            avatar: "/user.jpg",
+            avatar: "/H-REC-T-frontend/user.jpg",
             username: "common",
             nickname: "jack",
             roles: ["common"],
