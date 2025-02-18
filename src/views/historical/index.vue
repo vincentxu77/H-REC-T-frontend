@@ -8,6 +8,36 @@ defineOptions({
   name: "Historical"
 });
 
+interface HistoricalData {
+  projectName: string;
+  date: string;
+  trader: string;
+  product: string;
+  bs: "买入" | "卖出";
+  quantity: number;
+  price: number;
+  settleDate: string;
+  time: string;
+  counterparty: string;
+  status: string;
+  lastTraded: number;
+  trend: "up" | "down" | "stable";
+}
+
+// 将历史数据转换为MarketData类型
+const convertToMarketData = (data: HistoricalData): MarketData => {
+  return {
+    projectName: data.projectName,
+    date: data.date,
+    bidQty: data.bs === "买入" ? data.quantity : 0,
+    bidPrice: data.bs === "买入" ? data.price : 0,
+    lastTraded: data.lastTraded,
+    offer: data.bs === "卖出" ? data.price : 0,
+    offerQty: data.bs === "卖出" ? data.quantity : 0,
+    trend: data.trend
+  };
+};
+
 const drawerVisible = ref(false);
 const currentRow = ref<MarketData | null>(null);
 const dateRange = ref<[Date, Date] | null>(null);
@@ -15,8 +45,8 @@ const selectedProduct = ref("");
 const selectedBS = ref("");
 
 // 处理行点击事件
-const handleRowClick = (row: MarketData) => {
-  currentRow.value = row;
+const handleRowClick = (row: HistoricalData) => {
+  currentRow.value = convertToMarketData(row);
   drawerVisible.value = true;
 };
 
@@ -38,68 +68,200 @@ const handleReset = () => {
 };
 
 // 模拟历史交易数据
-const historicalData = ref([
+const historicalData = ref<HistoricalData[]>([
+  // CCER-12M 交易数据
   {
-    name: "黄杰夫",
-    product: "广东地区碳配额",
-    productExpiry: "Mon 16 Sep",
-    bs: "Buy",
+    projectName: "CCER-12M-01",
+    date: "2025-01-16",
+    trader: "张明",
+    product: "CCER-12M",
+    bs: "买入",
     quantity: 25,
-    price: 173,
-    settleDate: "2019-09-13",
-    time: "21:49",
-    counterparty: "东山电力",
-    status: "成交"
+    price: 310,
+    settleDate: "2024-03-15",
+    time: "10:30",
+    counterparty: "华能新能源",
+    status: "成交",
+    lastTraded: 310,
+    trend: "up"
   },
   {
-    name: "黄杰夫",
-    product: "广东地区碳配额",
-    productExpiry: "W39 23 Sep",
-    bs: "Buy",
-    quantity: 5,
-    price: 221,
-    settleDate: "2019-09-13",
-    time: "21:49",
-    counterparty: "川投能源",
-    status: "成交"
+    projectName: "CCER-12M-03",
+    date: "2025-03-30",
+    trader: "李华",
+    product: "CCER-12M",
+    bs: "卖出",
+    quantity: 35,
+    price: 308,
+    settleDate: "2024-03-15",
+    time: "11:45",
+    counterparty: "国电投清洁能源",
+    status: "成交",
+    lastTraded: 308,
+    trend: "down"
   },
   {
-    name: "黄杰夫",
-    product: "广东地区碳配额",
-    productExpiry: "Tue 10 Sep",
-    bs: "Buy",
-    quantity: 25,
-    price: 233,
-    settleDate: "2019-09-08",
-    time: "23:14",
-    counterparty: "东山电力",
-    status: "成交"
+    projectName: "CCER-12M-05",
+    date: "2025-05-14",
+    trader: "王芳",
+    product: "CCER-12M",
+    bs: "买入",
+    quantity: 40,
+    price: 318,
+    settleDate: "2024-03-14",
+    time: "14:20",
+    counterparty: "大唐新能源",
+    status: "成交",
+    lastTraded: 318,
+    trend: "up"
   },
   {
-    name: "黄杰夫",
-    product: "广东地区碳配额",
-    productExpiry: "Tue 10 Sep",
-    bs: "Buy",
-    quantity: 25,
-    price: 234,
-    settleDate: "2019-09-08",
-    time: "23:14",
-    counterparty: "东山电力",
-    status: "成交"
+    projectName: "CCER-12M-07",
+    date: "2025-07-28",
+    trader: "赵强",
+    product: "CCER-12M",
+    bs: "卖出",
+    quantity: 45,
+    price: 312,
+    settleDate: "2024-03-14",
+    time: "15:30",
+    counterparty: "中广核能源",
+    status: "成交",
+    lastTraded: 312,
+    trend: "down"
+  },
+
+  // CCER-24M 交易数据
+  {
+    projectName: "CCER-24M-02",
+    date: "2025-02-19",
+    trader: "陈静",
+    product: "CCER-24M",
+    bs: "买入",
+    quantity: 30,
+    price: 271,
+    settleDate: "2024-03-15",
+    time: "09:45",
+    counterparty: "三峡新能源",
+    status: "成交",
+    lastTraded: 271,
+    trend: "up"
   },
   {
-    name: "黄杰夫",
-    product: "广东地区碳配额",
-    productExpiry: "Tue 10 Sep",
-    bs: "Sell",
+    projectName: "CCER-24M-04",
+    date: "2025-04-19",
+    trader: "吴伟",
+    product: "CCER-24M",
+    bs: "卖出",
+    quantity: 35,
+    price: 245,
+    settleDate: "2024-03-15",
+    time: "10:15",
+    counterparty: "中节能环保",
+    status: "成交",
+    lastTraded: 245,
+    trend: "down"
+  },
+  {
+    projectName: "CCER-24M-06",
+    date: "2025-06-19",
+    trader: "刘洋",
+    product: "CCER-24M",
+    bs: "买入",
+    quantity: 40,
+    price: 262,
+    settleDate: "2024-03-14",
+    time: "13:50",
+    counterparty: "协鑫新能源",
+    status: "成交",
+    lastTraded: 262,
+    trend: "up"
+  },
+  {
+    projectName: "CCER-24M-08",
+    date: "2025-08-19",
+    trader: "孙萍",
+    product: "CCER-24M",
+    bs: "卖出",
+    quantity: 55,
+    price: 245,
+    settleDate: "2024-03-14",
+    time: "14:30",
+    counterparty: "远景能源",
+    status: "成交",
+    lastTraded: 245,
+    trend: "down"
+  },
+
+  // CCER-36M 交易数据
+  {
+    projectName: "CCER-36M-01",
+    date: "2025-01-10",
+    trader: "周明",
+    product: "CCER-36M",
+    bs: "买入",
     quantity: 25,
-    price: 251,
-    settleDate: "2019-09-08",
-    time: "23:13",
-    counterparty: "川投能源",
-    status: "成交"
+    price: 265,
+    settleDate: "2024-03-15",
+    time: "09:30",
+    counterparty: "明阳智能",
+    status: "成交",
+    lastTraded: 265,
+    trend: "up"
+  },
+  {
+    projectName: "CCER-36M-03",
+    date: "2025-03-10",
+    trader: "郑华",
+    product: "CCER-36M",
+    bs: "卖出",
+    quantity: 25,
+    price: 310,
+    settleDate: "2024-03-15",
+    time: "11:20",
+    counterparty: "金风科技",
+    status: "成交",
+    lastTraded: 310,
+    trend: "down"
+  },
+  {
+    projectName: "CCER-36M-05",
+    date: "2025-05-10",
+    trader: "黄婷",
+    product: "CCER-36M",
+    bs: "买入",
+    quantity: 35,
+    price: 298,
+    settleDate: "2024-03-14",
+    time: "13:45",
+    counterparty: "天合光能",
+    status: "成交",
+    lastTraded: 298,
+    trend: "up"
+  },
+  {
+    projectName: "CCER-36M-07",
+    date: "2025-07-10",
+    trader: "马超",
+    product: "CCER-36M",
+    bs: "卖出",
+    quantity: 45,
+    price: 295,
+    settleDate: "2024-03-14",
+    time: "15:15",
+    counterparty: "隆基绿能",
+    status: "成交",
+    lastTraded: 295,
+    trend: "down"
   }
 ]);
+
+// 更新下拉选项
+const productOptions = [
+  { label: "CCER-12M", value: "CCER-12M" },
+  { label: "CCER-24M", value: "CCER-24M" },
+  { label: "CCER-36M", value: "CCER-36M" }
+];
 </script>
 
 <template>
@@ -123,10 +285,12 @@ const historicalData = ref([
           clearable
           class="mr-4"
         >
-          <el-option label="广东地区碳配额" value="广东地区碳配额" />
-          <el-option label="CCER-12" value="CCER-12" />
-          <el-option label="CCER-21" value="CCER-21" />
-          <el-option label="CCER-36" value="CCER-36" />
+          <el-option
+            v-for="option in productOptions"
+            :key="option.value"
+            :label="option.label"
+            :value="option.value"
+          />
         </el-select>
         <el-select
           v-model="selectedBS"
@@ -134,8 +298,8 @@ const historicalData = ref([
           clearable
           class="mr-4"
         >
-          <el-option label="买入" value="Buy" />
-          <el-option label="卖出" value="Sell" />
+          <el-option label="买入" value="买入" />
+          <el-option label="卖出" value="卖出" />
         </el-select>
         <el-button type="primary" @click="handleSearch">查询</el-button>
         <el-button @click="handleReset">重置</el-button>

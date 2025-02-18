@@ -2,16 +2,19 @@
 import { computed } from "vue";
 
 interface HistoricalData {
-  name: string;
+  projectName: string;
+  date: string;
+  trader: string;
   product: string;
-  productExpiry: string;
-  bs: "Buy" | "Sell";
+  bs: "买入" | "卖出";
   quantity: number;
   price: number;
+  settleDate: string;
   time: string;
+  counterparty: string;
   status: string;
-  counterparty?: string;
-  settleDate?: string;
+  lastTraded: number;
+  trend: "up" | "down" | "stable";
 }
 
 const props = defineProps<{
@@ -39,15 +42,16 @@ const tableData = computed(() => props.data);
       highlight-current-row
       @row-click="handleRowClick"
     >
-      <el-table-column prop="name" label="交易员" min-width="120" />
+      <el-table-column prop="trader" label="交易员" min-width="120" />
       <el-table-column prop="product" label="产品" min-width="150" />
-      <el-table-column prop="productExpiry" label="到期日" min-width="120" />
+      <el-table-column prop="projectName" label="合约名称" min-width="120" />
+      <el-table-column prop="date" label="到期日" min-width="120" />
       <el-table-column prop="bs" label="买卖" min-width="80">
         <template #default="{ row }">
           <span
             :class="{
-              'text-red-500': row.bs === 'Buy',
-              'text-green-500': row.bs === 'Sell'
+              'text-red-500': row.bs === '买入',
+              'text-green-500': row.bs === '卖出'
             }"
           >
             {{ row.bs }}

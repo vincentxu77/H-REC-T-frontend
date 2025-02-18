@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted, watch } from "vue";
 import MarketDetail from "./marketDetail.vue";
 import MarketTable from "./components/MarketTable.vue";
 import type { MarketData } from "./components/MarketTable.vue";
@@ -11,120 +11,10 @@ defineOptions({
 const drawerVisible = ref(false);
 const currentRow = ref<MarketData | null>(null);
 
-// 处理行点击事件
-const handleRowClick = (row: MarketData) => {
-  currentRow.value = row;
-  drawerVisible.value = true;
-};
-
-// EUA数据
-const euaTableData = ref<MarketData[]>([
-  {
-    projectName: "国家核证自愿减排量",
-    date: "2025-01-10",
-    bidQty: 50,
-    bidPrice: 248,
-    lastTraded: 249,
-    offer: 250,
-    offerQty: 50,
-    trend: "up"
-  },
-  {
-    projectName: "林业碳汇项目",
-    date: "2025-02-11",
-    bidQty: 50,
-    bidPrice: 247,
-    lastTraded: 349,
-    offer: 250,
-    offerQty: 100,
-    trend: "up"
-  },
-  {
-    projectName: "可再生能源项目",
-    date: "2025-03-12",
-    bidQty: 100,
-    bidPrice: 233,
-    lastTraded: 240,
-    offer: 235,
-    offerQty: 50,
-    trend: "down"
-  },
-  {
-    projectName: "甲烷利用项目",
-    date: "2025-04-13",
-    bidQty: 50,
-    bidPrice: 240,
-    lastTraded: 245,
-    offer: 243,
-    offerQty: 50,
-    trend: "down"
-  },
-  {
-    projectName: "工业节能减排项目",
-    date: "2025-05-14",
-    bidQty: 75,
-    bidPrice: 255,
-    lastTraded: 258,
-    offer: 260,
-    offerQty: 75,
-    trend: "up"
-  },
-  {
-    projectName: "清洁交通项目",
-    date: "2025-06-15",
-    bidQty: 60,
-    bidPrice: 262,
-    lastTraded: 265,
-    offer: 268,
-    offerQty: 60,
-    trend: "up"
-  },
-  {
-    projectName: "建筑能效提升项目",
-    date: "2025-07-16",
-    bidQty: 45,
-    bidPrice: 270,
-    lastTraded: 272,
-    offer: 275,
-    offerQty: 45,
-    trend: "up"
-  },
-  {
-    projectName: "农业减排项目",
-    date: "2025-08-17",
-    bidQty: 55,
-    bidPrice: 268,
-    lastTraded: 265,
-    offer: 263,
-    offerQty: 55,
-    trend: "down"
-  },
-  {
-    projectName: "垃圾处理项目",
-    date: "2025-09-18",
-    bidQty: 40,
-    bidPrice: 258,
-    lastTraded: 255,
-    offer: 253,
-    offerQty: 40,
-    trend: "down"
-  },
-  {
-    projectName: "工业废气利用项目",
-    date: "2025-10-19",
-    bidQty: 65,
-    bidPrice: 252,
-    lastTraded: 254,
-    offer: 256,
-    offerQty: 65,
-    trend: "up"
-  }
-]);
-
-// CCER-12数据
+// CCER-12M数据
 const ccer12TableData = ref<MarketData[]>([
   {
-    projectName: "工业燃料替代项目",
+    projectName: "CCER-12M-01",
     date: "2025-01-16",
     bidQty: 25,
     bidPrice: 310,
@@ -134,7 +24,7 @@ const ccer12TableData = ref<MarketData[]>([
     trend: "up"
   },
   {
-    projectName: "节能技术改造项目",
+    projectName: "CCER-12M-02",
     date: "2025-02-23",
     bidQty: 50,
     bidPrice: 315,
@@ -144,7 +34,7 @@ const ccer12TableData = ref<MarketData[]>([
     trend: "up"
   },
   {
-    projectName: "交通运输项目",
+    projectName: "CCER-12M-03",
     date: "2025-03-30",
     bidQty: 25,
     bidPrice: 308,
@@ -154,7 +44,7 @@ const ccer12TableData = ref<MarketData[]>([
     trend: "up"
   },
   {
-    projectName: "太阳能光伏项目",
+    projectName: "CCER-12M-04",
     date: "2025-04-07",
     bidQty: 35,
     bidPrice: 322,
@@ -164,7 +54,7 @@ const ccer12TableData = ref<MarketData[]>([
     trend: "up"
   },
   {
-    projectName: "风力发电项目",
+    projectName: "CCER-12M-05",
     date: "2025-05-14",
     bidQty: 40,
     bidPrice: 318,
@@ -174,7 +64,7 @@ const ccer12TableData = ref<MarketData[]>([
     trend: "down"
   },
   {
-    projectName: "生物质能项目",
+    projectName: "CCER-12M-06",
     date: "2025-06-21",
     bidQty: 30,
     bidPrice: 305,
@@ -184,7 +74,7 @@ const ccer12TableData = ref<MarketData[]>([
     trend: "up"
   },
   {
-    projectName: "水电站项目",
+    projectName: "CCER-12M-07",
     date: "2025-07-28",
     bidQty: 45,
     bidPrice: 312,
@@ -194,7 +84,7 @@ const ccer12TableData = ref<MarketData[]>([
     trend: "up"
   },
   {
-    projectName: "地热能利用项目",
+    projectName: "CCER-12M-08",
     date: "2025-08-04",
     bidQty: 20,
     bidPrice: 300,
@@ -204,7 +94,7 @@ const ccer12TableData = ref<MarketData[]>([
     trend: "down"
   },
   {
-    projectName: "工业余热利用项目",
+    projectName: "CCER-12M-09",
     date: "2025-09-11",
     bidQty: 55,
     bidPrice: 292,
@@ -214,7 +104,7 @@ const ccer12TableData = ref<MarketData[]>([
     trend: "down"
   },
   {
-    projectName: "煤层气利用项目",
+    projectName: "CCER-12M-10",
     date: "2025-10-18",
     bidQty: 60,
     bidPrice: 285,
@@ -225,10 +115,10 @@ const ccer12TableData = ref<MarketData[]>([
   }
 ]);
 
-// CCER-21数据
-const ccer21TableData = ref<MarketData[]>([
+// CCER-24M数据
+const ccer24TableData = ref<MarketData[]>([
   {
-    projectName: "建筑节能项目",
+    projectName: "CCER-24M-01",
     date: "2025-01-19",
     bidQty: 50,
     bidPrice: 290,
@@ -238,7 +128,7 @@ const ccer21TableData = ref<MarketData[]>([
     trend: "down"
   },
   {
-    projectName: "农业温室气体减排",
+    projectName: "CCER-24M-02",
     date: "2025-02-19",
     bidQty: 25,
     bidPrice: 271,
@@ -248,7 +138,7 @@ const ccer21TableData = ref<MarketData[]>([
     trend: "up"
   },
   {
-    projectName: "垃圾填埋气体利用",
+    projectName: "CCER-24M-03",
     date: "2025-03-19",
     bidQty: 50,
     bidPrice: 240,
@@ -258,7 +148,7 @@ const ccer21TableData = ref<MarketData[]>([
     trend: "down"
   },
   {
-    projectName: "工业废水处理项目",
+    projectName: "CCER-24M-04",
     date: "2025-04-19",
     bidQty: 35,
     bidPrice: 245,
@@ -268,7 +158,7 @@ const ccer21TableData = ref<MarketData[]>([
     trend: "up"
   },
   {
-    projectName: "热电联产项目",
+    projectName: "CCER-24M-05",
     date: "2025-05-19",
     bidQty: 45,
     bidPrice: 255,
@@ -278,7 +168,7 @@ const ccer21TableData = ref<MarketData[]>([
     trend: "up"
   },
   {
-    projectName: "工业锅炉改造项目",
+    projectName: "CCER-24M-06",
     date: "2025-06-19",
     bidQty: 40,
     bidPrice: 262,
@@ -288,7 +178,7 @@ const ccer21TableData = ref<MarketData[]>([
     trend: "down"
   },
   {
-    projectName: "建筑材料节能项目",
+    projectName: "CCER-24M-07",
     date: "2025-07-19",
     bidQty: 30,
     bidPrice: 252,
@@ -298,7 +188,7 @@ const ccer21TableData = ref<MarketData[]>([
     trend: "down"
   },
   {
-    projectName: "工业电机系统优化",
+    projectName: "CCER-24M-08",
     date: "2025-08-19",
     bidQty: 55,
     bidPrice: 245,
@@ -308,7 +198,7 @@ const ccer21TableData = ref<MarketData[]>([
     trend: "up"
   },
   {
-    projectName: "能源管理系统项目",
+    projectName: "CCER-24M-09",
     date: "2025-09-19",
     bidQty: 60,
     bidPrice: 252,
@@ -318,7 +208,7 @@ const ccer21TableData = ref<MarketData[]>([
     trend: "up"
   },
   {
-    projectName: "清洁能源替代项目",
+    projectName: "CCER-24M-10",
     date: "2025-10-19",
     bidQty: 50,
     bidPrice: 260,
@@ -329,10 +219,10 @@ const ccer21TableData = ref<MarketData[]>([
   }
 ]);
 
-// CCER-36数据
+// CCER-36M数据
 const ccer36TableData = ref<MarketData[]>([
   {
-    projectName: "水电项目",
+    projectName: "CCER-36M-01",
     date: "2025-01-10",
     bidQty: 25,
     bidPrice: 265,
@@ -342,7 +232,7 @@ const ccer36TableData = ref<MarketData[]>([
     trend: "stable"
   },
   {
-    projectName: "风电项目",
+    projectName: "CCER-36M-02",
     date: "2025-02-10",
     bidQty: 25,
     bidPrice: 234,
@@ -352,7 +242,7 @@ const ccer36TableData = ref<MarketData[]>([
     trend: "up"
   },
   {
-    projectName: "光伏发电项目",
+    projectName: "CCER-36M-03",
     date: "2025-03-10",
     bidQty: 25,
     bidPrice: 310,
@@ -362,7 +252,7 @@ const ccer36TableData = ref<MarketData[]>([
     trend: "up"
   },
   {
-    projectName: "生物质能发电",
+    projectName: "CCER-36M-04",
     date: "2025-04-10",
     bidQty: 30,
     bidPrice: 305,
@@ -372,7 +262,7 @@ const ccer36TableData = ref<MarketData[]>([
     trend: "up"
   },
   {
-    projectName: "地热能开发",
+    projectName: "CCER-36M-05",
     date: "2025-05-10",
     bidQty: 35,
     bidPrice: 298,
@@ -382,7 +272,7 @@ const ccer36TableData = ref<MarketData[]>([
     trend: "down"
   },
   {
-    projectName: "海洋能利用",
+    projectName: "CCER-36M-06",
     date: "2025-06-10",
     bidQty: 40,
     bidPrice: 288,
@@ -392,7 +282,7 @@ const ccer36TableData = ref<MarketData[]>([
     trend: "up"
   },
   {
-    projectName: "氢能利用项目",
+    projectName: "CCER-36M-07",
     date: "2025-07-10",
     bidQty: 45,
     bidPrice: 295,
@@ -402,7 +292,7 @@ const ccer36TableData = ref<MarketData[]>([
     trend: "up"
   },
   {
-    projectName: "储能项目",
+    projectName: "CCER-36M-08",
     date: "2025-08-10",
     bidQty: 50,
     bidPrice: 302,
@@ -412,7 +302,7 @@ const ccer36TableData = ref<MarketData[]>([
     trend: "down"
   },
   {
-    projectName: "智能电网项目",
+    projectName: "CCER-36M-09",
     date: "2025-09-10",
     bidQty: 55,
     bidPrice: 292,
@@ -422,7 +312,7 @@ const ccer36TableData = ref<MarketData[]>([
     trend: "up"
   },
   {
-    projectName: "分布式能源项目",
+    projectName: "CCER-36M-10",
     date: "2025-10-10",
     bidQty: 60,
     bidPrice: 300,
@@ -432,21 +322,108 @@ const ccer36TableData = ref<MarketData[]>([
     trend: "up"
   }
 ]);
+
+// 从localStorage获取表格数据
+const getTableDataFromStorage = () => {
+  const stored = localStorage.getItem("marketTableData");
+  if (stored) {
+    try {
+      return JSON.parse(stored);
+    } catch (e) {
+      console.error("解析本地存储数据失败", e);
+      return null;
+    }
+  }
+  return null;
+};
+
+// 保存表格数据到localStorage
+const saveTableDataToStorage = () => {
+  try {
+    const data = {
+      "CCER-12M": ccer12TableData.value,
+      "CCER-24M": ccer24TableData.value,
+      "CCER-36M": ccer36TableData.value
+    };
+    localStorage.setItem("marketTableData", JSON.stringify(data));
+  } catch (e) {
+    console.error("保存表格数据失败", e);
+  }
+};
+
+// 处理行点击事件
+const handleRowClick = (row: MarketData) => {
+  currentRow.value = row;
+  drawerVisible.value = true;
+};
+
+// 处理数据更新
+const handleDataUpdate = (updatedRow: MarketData) => {
+  // 根据projectName前缀判断属于哪个表格
+  const prefix =
+    updatedRow.projectName.split("-")[0] +
+    "-" +
+    updatedRow.projectName.split("-")[1];
+
+  let targetData;
+  switch (prefix) {
+    case "CCER-12M":
+      targetData = ccer12TableData;
+      break;
+    case "CCER-24M":
+      targetData = ccer24TableData;
+      break;
+    case "CCER-36M":
+      targetData = ccer36TableData;
+      break;
+    default:
+      return;
+  }
+
+  // 更新对应表格中的数据
+  const index = targetData.value.findIndex(
+    item => item.projectName === updatedRow.projectName
+  );
+  if (index !== -1) {
+    targetData.value[index] = updatedRow;
+    // 保存更新后的数据到localStorage
+    saveTableDataToStorage();
+  }
+};
+
+// 初始化数据
+onMounted(() => {
+  const storedData = getTableDataFromStorage();
+  if (storedData) {
+    ccer12TableData.value = storedData["CCER-12M"] || ccer12TableData.value;
+    ccer24TableData.value = storedData["CCER-24M"] || ccer24TableData.value;
+    ccer36TableData.value = storedData["CCER-36M"] || ccer36TableData.value;
+  } else {
+    // 如果没有存储的数据，保存初始数据
+    saveTableDataToStorage();
+  }
+});
+
+// 监听表格数据变化
+watch(
+  [ccer12TableData, ccer24TableData, ccer36TableData],
+  () => {
+    saveTableDataToStorage();
+  },
+  { deep: true }
+);
 </script>
 
 <template>
   <div class="market-container">
     <el-tabs type="border-card">
-      <el-tab-pane label="EUA">
-        <market-table :data="euaTableData" @row-click="handleRowClick" />
-      </el-tab-pane>
-      <el-tab-pane label="CCER-12">
+      <el-tab-pane label="CCER-12M">
         <market-table :data="ccer12TableData" @row-click="handleRowClick" />
       </el-tab-pane>
-      <el-tab-pane label="CCER-21">
-        <market-table :data="ccer21TableData" @row-click="handleRowClick" />
+      <el-tab-pane label="CCER-24M">
+        <market-table :data="ccer24TableData" @row-click="handleRowClick" />
       </el-tab-pane>
-      <el-tab-pane label="CCER-36">
+      <el-tab-pane label="CCER-36M">
         <market-table :data="ccer36TableData" @row-click="handleRowClick" />
       </el-tab-pane>
     </el-tabs>
@@ -464,7 +441,12 @@ const ccer36TableData = ref<MarketData[]>([
       :with-header="false"
       class="market-detail-drawer"
     >
-      <market-detail v-if="currentRow" :row="currentRow" column-name="市场" />
+      <market-detail
+        v-if="currentRow"
+        :row="currentRow"
+        column-name="市场"
+        @update:row="handleDataUpdate"
+      />
     </el-drawer>
   </div>
 </template>

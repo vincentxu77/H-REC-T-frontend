@@ -53,7 +53,7 @@ const handleRowClick = (row: MarketData) => {
     }"
     @row-click="handleRowClick"
   >
-    <el-table-column label="项目名称" min-width="200">
+    <el-table-column label="合约名称" min-width="200">
       <template #default="{ row }">
         <div class="type-cell">
           <span class="type-text">{{ row.projectName }}</span>
