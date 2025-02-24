@@ -1,15 +1,24 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, inject } from "vue";
 import MarketDetail from "./marketDetail.vue";
+import EUADetail from "./components/EUADetail.vue";
 import MarketTable from "./components/MarketTable.vue";
-import type { MarketData } from "./components/MarketTable.vue";
+import EUATable from "./components/EUATable.vue";
+import type { MarketData, EUAData } from "./types";
 
 defineOptions({
   name: "Market"
 });
 
 const drawerVisible = ref(false);
-const currentRow = ref<MarketData | null>(null);
+const currentRow = ref<MarketData | EUAData | null>(null);
+const activeMarket = ref("CCER-12M");
+
+// 获取父组件的 PositionSummary 引用，并指定类型
+const positionSummaryRef = inject<
+  | { value: { updatePosition: (type: string, volume: number) => void } }
+  | undefined
+>("positionSummaryRef");
 
 // CCER-12M数据
 const ccer12TableData = ref<MarketData[]>([
@@ -323,6 +332,60 @@ const ccer36TableData = ref<MarketData[]>([
   }
 ]);
 
+// EUA数据
+const euaTableData = ref<EUAData[]>([
+  {
+    productName: "EUA Dec-24",
+    date: "2024-12-31",
+    openPrice: 65.23,
+    lastPrice: 66.45,
+    highPrice: 66.89,
+    lowPrice: 65.12,
+    volume: 15234,
+    change: 1.87
+  },
+  {
+    productName: "EUA Dec-25",
+    date: "2025-12-31",
+    openPrice: 68.45,
+    lastPrice: 67.89,
+    highPrice: 68.92,
+    lowPrice: 67.34,
+    volume: 12456,
+    change: -0.82
+  },
+  {
+    productName: "EUA Dec-26",
+    date: "2026-12-31",
+    openPrice: 70.12,
+    lastPrice: 71.34,
+    highPrice: 71.56,
+    lowPrice: 70.01,
+    volume: 9876,
+    change: 1.74
+  },
+  {
+    productName: "EUA Mar-24",
+    date: "2024-03-31",
+    openPrice: 63.45,
+    lastPrice: 64.23,
+    highPrice: 64.67,
+    lowPrice: 63.21,
+    volume: 8765,
+    change: 1.23
+  },
+  {
+    productName: "EUA Jun-24",
+    date: "2024-06-30",
+    openPrice: 64.78,
+    lastPrice: 63.98,
+    highPrice: 64.89,
+    lowPrice: 63.67,
+    volume: 7654,
+    change: -1.24
+  }
+]);
+
 // 从localStorage获取表格数据
 const getTableDataFromStorage = () => {
   const stored = localStorage.getItem("marketTableData");
@@ -343,7 +406,8 @@ const saveTableDataToStorage = () => {
     const data = {
       "CCER-12M": ccer12TableData.value,
       "CCER-24M": ccer24TableData.value,
-      "CCER-36M": ccer36TableData.value
+      "CCER-36M": ccer36TableData.value,
+      EUA: euaTableData.value
     };
     localStorage.setItem("marketTableData", JSON.stringify(data));
   } catch (e) {
@@ -352,43 +416,75 @@ const saveTableDataToStorage = () => {
 };
 
 // 处理行点击事件
-const handleRowClick = (row: MarketData) => {
-  currentRow.value = row;
+const handleRowClick = (row: MarketData | EUAData) => {
+  if ("projectName" in row) {
+    // 处理 CCER 数据
+    currentRow.value = row as MarketData;
+  } else {
+    // 处理 EUA 数据
+    currentRow.value = row as EUAData;
+  }
   drawerVisible.value = true;
 };
 
 // 处理数据更新
-const handleDataUpdate = (updatedRow: MarketData) => {
-  // 根据projectName前缀判断属于哪个表格
-  const prefix =
-    updatedRow.projectName.split("-")[0] +
-    "-" +
-    updatedRow.projectName.split("-")[1];
+const handleDataUpdate = (updatedRow: MarketData | EUAData) => {
+  if ("projectName" in updatedRow) {
+    // 处理 CCER 数据
+    const prefix =
+      (updatedRow as MarketData).projectName.split("-")[0] +
+      "-" +
+      (updatedRow as MarketData).projectName.split("-")[1];
 
-  let targetData;
-  switch (prefix) {
-    case "CCER-12M":
-      targetData = ccer12TableData;
-      break;
-    case "CCER-24M":
-      targetData = ccer24TableData;
-      break;
-    case "CCER-36M":
-      targetData = ccer36TableData;
-      break;
-    default:
-      return;
-  }
+    let targetData;
+    switch (prefix) {
+      case "CCER-12M":
+        targetData = ccer12TableData;
+        break;
+      case "CCER-24M":
+        targetData = ccer24TableData;
+        break;
+      case "CCER-36M":
+        targetData = ccer36TableData;
+        break;
+      default:
+        return;
+    }
 
-  // 更新对应表格中的数据
-  const index = targetData.value.findIndex(
-    item => item.projectName === updatedRow.projectName
-  );
-  if (index !== -1) {
-    targetData.value[index] = updatedRow;
-    // 保存更新后的数据到localStorage
-    saveTableDataToStorage();
+    // 更新对应表格中的数据
+    const index = targetData.value.findIndex(
+      item => item.projectName === (updatedRow as MarketData).projectName
+    );
+    if (index !== -1) {
+      const oldRow = targetData.value[index];
+      targetData.value[index] = updatedRow as MarketData;
+
+      // 计算持仓变化
+      const volumeChange = (updatedRow as MarketData).bidQty - oldRow.bidQty;
+      if (volumeChange !== 0) {
+        positionSummaryRef.value?.updatePosition(prefix, volumeChange);
+      }
+    }
+  } else {
+    // 处理 EUA 数据
+    const index = euaTableData.value.findIndex(
+      item => item.productName === (updatedRow as EUAData).productName
+    );
+    if (index !== -1) {
+      const oldRow = euaTableData.value[index];
+      euaTableData.value[index] = updatedRow as EUAData;
+
+      // 计算持仓变化
+      const volumeChange =
+        Math.floor((updatedRow as EUAData).volume / 100) -
+        Math.floor(oldRow.volume / 100);
+      if (volumeChange !== 0) {
+        positionSummaryRef.value?.updatePosition("EUA", volumeChange);
+      }
+    }
   }
+  // 保存更新后的数据到localStorage
+  saveTableDataToStorage();
 };
 
 // 初始化数据
@@ -398,6 +494,7 @@ onMounted(() => {
     ccer12TableData.value = storedData["CCER-12M"] || ccer12TableData.value;
     ccer24TableData.value = storedData["CCER-24M"] || ccer24TableData.value;
     ccer36TableData.value = storedData["CCER-36M"] || ccer36TableData.value;
+    euaTableData.value = storedData["EUA"] || euaTableData.value;
   } else {
     // 如果没有存储的数据，保存初始数据
     saveTableDataToStorage();
@@ -406,7 +503,7 @@ onMounted(() => {
 
 // 监听表格数据变化
 watch(
-  [ccer12TableData, ccer24TableData, ccer36TableData],
+  [ccer12TableData, ccer24TableData, ccer36TableData, euaTableData],
   () => {
     saveTableDataToStorage();
   },
@@ -416,17 +513,38 @@ watch(
 
 <template>
   <div class="market-container">
-    <el-tabs type="border-card">
-      <el-tab-pane label="CCER-12M">
-        <market-table :data="ccer12TableData" @row-click="handleRowClick" />
-      </el-tab-pane>
-      <el-tab-pane label="CCER-24M">
-        <market-table :data="ccer24TableData" @row-click="handleRowClick" />
-      </el-tab-pane>
-      <el-tab-pane label="CCER-36M">
-        <market-table :data="ccer36TableData" @row-click="handleRowClick" />
-      </el-tab-pane>
-    </el-tabs>
+    <div class="market-header">
+      <span class="market-title">交易品种</span>
+      <el-radio-group v-model="activeMarket" fill="#336cfb">
+        <el-radio-button label="CCER-12M">CCER-12M</el-radio-button>
+        <el-radio-button label="CCER-24M">CCER-24M</el-radio-button>
+        <el-radio-button label="CCER-36M">CCER-36M</el-radio-button>
+        <el-radio-button label="EUA">EUA</el-radio-button>
+      </el-radio-group>
+    </div>
+
+    <div class="market-content">
+      <market-table
+        v-if="activeMarket === 'CCER-12M'"
+        :data="ccer12TableData"
+        @row-click="handleRowClick"
+      />
+      <market-table
+        v-if="activeMarket === 'CCER-24M'"
+        :data="ccer24TableData"
+        @row-click="handleRowClick"
+      />
+      <market-table
+        v-if="activeMarket === 'CCER-36M'"
+        :data="ccer36TableData"
+        @row-click="handleRowClick"
+      />
+      <EUATable
+        v-if="activeMarket === 'EUA'"
+        :data="euaTableData"
+        @row-click="handleRowClick"
+      />
+    </div>
 
     <el-drawer
       v-model="drawerVisible"
@@ -442,9 +560,14 @@ watch(
       class="market-detail-drawer"
     >
       <market-detail
-        v-if="currentRow"
+        v-if="currentRow && 'projectName' in currentRow"
         :row="currentRow"
         column-name="市场"
+        @update:row="handleDataUpdate"
+      />
+      <EUADetail
+        v-if="currentRow && 'productName' in currentRow"
+        :row="currentRow"
         @update:row="handleDataUpdate"
       />
     </el-drawer>
@@ -455,48 +578,58 @@ watch(
 .market-container {
   min-height: calc(100vh - 150px);
   padding: 20px;
+  margin: 45px 24px 0 !important;
   background: #fff;
 }
 
-:deep(.el-tabs--border-card) {
+.market-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.market-title {
+  margin-right: 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.market-content {
+  margin-bottom: 20px;
   background: #fff;
-  border: none; /* 移除边框 */
+  border-radius: 4px;
   box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
-}
-
-:deep(.el-tabs__header) {
-  margin: 0;
-  background-color: #f8fafc;
-  border-bottom: 1px solid #e4e7ed;
-}
-
-:deep(.el-tabs__nav) {
-  border: none !important;
-}
-
-:deep(.el-tabs__item) {
-  height: 50px;
-  padding: 0 25px;
-  font-size: 15px;
-  line-height: 50px;
-  border: none !important;
-  transition: all 0.3s;
-}
-
-:deep(.el-tabs__item.is-active) {
-  font-weight: 600;
-  background-color: #fff;
-  border-radius: 4px 4px 0 0;
-}
-
-:deep(.el-tabs__content) {
-  padding: 0; /* 移除内容区域的内边距 */
 }
 
 .market-detail-drawer {
   :deep(.el-drawer__body) {
     height: 100%;
     padding: 0 !important;
+    overflow: hidden;
+  }
+}
+
+:deep(.el-radio-button__inner:hover) {
+  color: #336cfb;
+}
+
+:deep(.el-radio-button__inner) {
+  min-width: 108px;
+}
+
+:deep(.el-radio-button__orig-radio:checked + .el-radio-button__inner:hover) {
+  color: #fff;
+}
+
+:deep(.market-detail-drawer) {
+  .el-drawer {
+    background: #1a2332;
+  }
+
+  .el-drawer__body {
+    height: 100%;
+    padding: 0;
     overflow: hidden;
   }
 }

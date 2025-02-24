@@ -5,9 +5,12 @@ import LayFooter from "../lay-footer/index.vue";
 import { useTags } from "@/layout/hooks/useTag";
 import { useGlobal, isNumber } from "@pureadmin/utils";
 import BackTopIcon from "@/assets/svg/back_top.svg?component";
-import { h, computed, Transition, defineComponent } from "vue";
+import { h, computed, Transition, defineComponent, ref, provide } from "vue";
 import { usePermissionStoreHook } from "@/store/modules/permission";
+import { useRoute } from "vue-router";
+import PositionSummary from "@/views/market/components/PositionSummary.vue";
 
+const route = useRoute();
 const props = defineProps({
   fixedHeader: Boolean
 });
@@ -105,6 +108,22 @@ const transitionMain = defineComponent({
     );
   }
 });
+
+// 判断是否显示持仓信息
+const showPositionSummary = computed(() => {
+  return route.name === "Market";
+});
+
+// 添加 ref 用于暴露给其他组件
+const positionSummaryRef = ref();
+
+// 提供给子组件使用
+provide("positionSummaryRef", positionSummaryRef);
+
+// 暴露给外部使用
+defineExpose({
+  positionSummaryRef
+});
 </script>
 
 <template>
@@ -112,6 +131,7 @@ const transitionMain = defineComponent({
     :class="[fixedHeader ? 'app-main' : 'app-main-nofixed-header']"
     :style="getSectionStyle"
   >
+    <PositionSummary v-if="showPositionSummary" ref="positionSummaryRef" />
     <router-view>
       <template #default="{ Component, route }">
         <LayFrame :currComp="Component" :currRoute="route">

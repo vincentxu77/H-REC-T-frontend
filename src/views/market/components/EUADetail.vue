@@ -2,23 +2,22 @@
 import { ref, onMounted, onUnmounted, nextTick, h } from "vue";
 import * as echarts from "echarts";
 import type { EChartsOption } from "echarts";
-import type { MarketData } from "./types";
+import type { EUAData } from "../types";
 import dayjs from "dayjs";
 import { ElMessageBox, ElMessage } from "element-plus";
 import { ElInputNumber } from "element-plus";
 import type { FormInstance, FormRules } from "element-plus";
 
 defineOptions({
-  name: "MarketDetail"
+  name: "EUADetail"
 });
 
 const props = defineProps<{
-  row: MarketData;
-  columnName: string;
+  row: EUAData;
 }>();
 
 const emit = defineEmits<{
-  (e: "update:row", row: MarketData): void;
+  (e: "update:row", row: EUAData): void;
 }>();
 
 const chartRef = ref();
@@ -27,29 +26,29 @@ let priceChart: echarts.ECharts | null = null;
 interface TradeRecord {
   time: string;
   price: number;
-  quantity: number;
+  volume: number;
   direction: "买入" | "卖出";
 }
 
 // 交易表单数据
 interface TradeForm {
-  quantity: number | undefined;
+  volume: number | undefined;
   price: number | undefined;
 }
 
 // 从localStorage获取存储的交易记录
 const getStoredTradeForm = () => {
-  const stored = localStorage.getItem("tradeFormData");
+  const stored = localStorage.getItem("euaTradeFormData");
   if (stored) {
     try {
       const parsedData = JSON.parse(stored);
       // 查找当前项目的最新记录
       const latestRecord = parsedData.find(
-        (item: any) => item.projectName === props.row.projectName
+        (item: any) => item.productName === props.row.productName
       );
       if (latestRecord) {
         return {
-          quantity: latestRecord.quantity,
+          volume: latestRecord.volume,
           price: latestRecord.price
         };
       }
@@ -58,95 +57,43 @@ const getStoredTradeForm = () => {
     }
   }
   return {
-    quantity: undefined,
+    volume: undefined,
     price: undefined
   };
 };
 
-// 保存交易表单到localStorage
-const saveTradeForm = (form: TradeForm) => {
-  try {
-    const stored = localStorage.getItem("tradeFormData");
-    let tradeFormData = [];
-    if (stored) {
-      tradeFormData = JSON.parse(stored);
-      // 移除当前项目的旧记录
-      tradeFormData = tradeFormData.filter(
-        (item: any) => item.projectName !== props.row.projectName
-      );
-    }
-    // 添加新记录
-    tradeFormData.push({
-      projectName: props.row.projectName,
-      quantity: form.quantity,
-      price: form.price,
-      timestamp: new Date().getTime()
-    });
-    // 只保留最新的50条记录
-    if (tradeFormData.length > 50) {
-      tradeFormData = tradeFormData.slice(-50);
-    }
-    localStorage.setItem("tradeFormData", JSON.stringify(tradeFormData));
-  } catch (e) {
-    console.error("保存交易表单数据失败", e);
-  }
-};
-
 const tradeForm = ref<TradeForm>(getStoredTradeForm());
-
-// 监听表单变化并保存
-const handleFormChange = () => {
-  if (tradeForm.value.quantity || tradeForm.value.price) {
-    saveTradeForm(tradeForm.value);
-  }
-};
 
 // 生成模拟的交易记录
 const generateTradeRecords = () => {
   const records: TradeRecord[] = [];
   const now = dayjs();
-  const basePrice = Math.round(props.row.lastTraded);
+  const basePrice = props.row.lastPrice;
   const times = [];
   const prices = [];
 
-  // 生成第一个价格（最早的时间点）
-  let lastPrice =
-    basePrice +
-    (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 30) + 20);
+  let lastPrice = basePrice;
 
   for (let i = 9; i >= 0; i--) {
     const time = now.subtract(i * 15, "minute");
-
-    // 生成新价格，确保与上一个价格相差至少20
     const direction = Math.random() > 0.5 ? 1 : -1;
-    const minChange = 20;
-    const additionalChange = Math.floor(Math.random() * 30); // 0-29的额外变化
-    const price = lastPrice + direction * (minChange + additionalChange);
+    const change = direction * (Math.random() * 0.5); // 最大变化0.5欧元
+    const price = Number((lastPrice + change).toFixed(2));
+    lastPrice = price;
 
-    // 确保价格为正数
-    lastPrice = Math.max(price, minChange);
-
-    // 生成50-500之间的随机整数作为数量
-    const quantity = Math.floor(Math.random() * 451) + 50;
+    const volume = Math.floor(Math.random() * 1000) + 100;
     const tradeDirection = Math.random() > 0.5 ? "买入" : "卖出";
 
     records.push({
       time: time.format("YYYY-MM-DD HH:mm"),
-      price: lastPrice,
-      quantity,
+      price,
+      volume,
       direction: tradeDirection
     });
 
     times.push(time.format("HH:mm"));
-    prices.push(lastPrice);
+    prices.push(price);
   }
-
-  // 确保最后一个价格是最新成交价（取整）
-  const finalPrice = Math.round(props.row.lastTraded);
-  prices[prices.length - 1] = finalPrice;
-  records[records.length - 1].price = finalPrice;
-  // 最后一条记录的数量也随机生成
-  records[records.length - 1].quantity = Math.floor(Math.random() * 451) + 50;
 
   return { records, times, prices };
 };
@@ -162,12 +109,16 @@ const initPriceChart = async () => {
     priceChart.dispose();
   }
 
+  // 等待容器渲染完成
+  await new Promise(resolve => setTimeout(resolve, 100));
+
   priceChart = echarts.init(chartRef.value);
+  window.addEventListener("resize", handleResize);
 
   const option: EChartsOption = {
     backgroundColor: "#1a2332",
     title: {
-      text: props.row.projectName,
+      text: props.row.productName,
       left: "center",
       top: 10,
       textStyle: {
@@ -192,7 +143,7 @@ const initPriceChart = async () => {
       },
       formatter: (params: any) => {
         const [param] = params;
-        return `${param.name}<br/>价格：${param.value}`;
+        return `${param.name}<br/>价格：${param.value}€`;
       }
     },
     xAxis: {
@@ -205,10 +156,7 @@ const initPriceChart = async () => {
       },
       axisLabel: {
         color: "#7a8baa",
-        rotate: 45,
-        formatter: (value: string) => {
-          return value.split(":").join(":");
-        }
+        rotate: 45
       },
       splitLine: {
         show: false
@@ -244,7 +192,7 @@ const initPriceChart = async () => {
         data: prices,
         type: "line",
         smooth: true,
-        showSymbol: false, // 隐藏折线上的点
+        showSymbol: false,
         lineStyle: {
           color: "#32c5ff",
           width: 2
@@ -266,16 +214,24 @@ const initPriceChart = async () => {
   };
 
   priceChart.setOption(option);
+  priceChart.resize();
 };
 
 // 格式化数字
 const formatNumber = (num: number) => {
-  return new Intl.NumberFormat("zh-CN").format(num);
+  return new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(num);
+};
+
+// 格式化成交量
+const formatVolume = (num: number) => {
+  return new Intl.NumberFormat("en-US").format(num);
 };
 
 // 窗口大小改变时重新调整图表大小
-const handleResize = async () => {
-  await nextTick();
+const handleResize = () => {
   priceChart?.resize();
 };
 
@@ -301,13 +257,13 @@ const formRef = ref<FormInstance>();
 const currentDirection = ref<"买入" | "卖出">("买入");
 
 const rules: FormRules = {
-  quantity: [
+  volume: [
     { required: true, message: "请输入数量", trigger: "blur" },
     { type: "number", min: 1, message: "数量必须大于0", trigger: "blur" }
   ],
   price: [
     { required: true, message: "请输入价格", trigger: "blur" },
-    { type: "number", min: 1, message: "价格必须大于0", trigger: "blur" }
+    { type: "number", min: 0.01, message: "价格必须大于0", trigger: "blur" }
   ]
 };
 
@@ -315,7 +271,6 @@ const rules: FormRules = {
 const handleTrade = (direction: "买入" | "卖出") => {
   currentDirection.value = direction;
   dialogVisible.value = true;
-  // 从localStorage获取存储的表单数据
   tradeForm.value = getStoredTradeForm();
 };
 
@@ -330,7 +285,7 @@ const handleSubmit = async () => {
     const newRecord: TradeRecord = {
       time: now.format("YYYY-MM-DD HH:mm"),
       price: tradeForm.value.price!,
-      quantity: tradeForm.value.quantity!,
+      volume: tradeForm.value.volume!,
       direction: currentDirection.value
     };
 
@@ -351,30 +306,18 @@ const handleSubmit = async () => {
       series: [{ data: newPrices }]
     });
 
+    // 计算涨跌幅
+    const change =
+      ((newRecord.price - props.row.openPrice) / props.row.openPrice) * 100;
+
     // 更新父组件数据
-    const updatedRow = {
+    const updatedRow: EUAData = {
       ...props.row,
-      lastTraded: newRecord.price,
-      trend:
-        newRecord.price > props.row.lastTraded
-          ? "up"
-          : newRecord.price < props.row.lastTraded
-            ? "down"
-            : props.row.trend,
-      bidPrice:
-        currentDirection.value === "买入"
-          ? newRecord.price
-          : props.row.bidPrice,
-      offer:
-        currentDirection.value === "卖出" ? newRecord.price : props.row.offer,
-      bidQty:
-        currentDirection.value === "买入"
-          ? newRecord.quantity
-          : props.row.bidQty,
-      offerQty:
-        currentDirection.value === "卖出"
-          ? newRecord.quantity
-          : props.row.offerQty
+      lastPrice: newRecord.price,
+      volume: props.row.volume + newRecord.volume,
+      change,
+      highPrice: Math.max(props.row.highPrice, newRecord.price),
+      lowPrice: Math.min(props.row.lowPrice, newRecord.price)
     };
 
     // 发送更新事件到父组件
@@ -382,22 +325,13 @@ const handleSubmit = async () => {
 
     // 重置表单
     tradeForm.value = {
-      quantity: undefined,
+      volume: undefined,
       price: undefined
     };
-    // 清除本地存储中的当前项目记录
-    const stored = localStorage.getItem("tradeFormData");
-    if (stored) {
-      const tradeFormData = JSON.parse(stored).filter(
-        (item: any) => item.projectName !== props.row.projectName
-      );
-      localStorage.setItem("tradeFormData", JSON.stringify(tradeFormData));
-    }
 
     dialogVisible.value = false;
     ElMessage.success(`${currentDirection.value}交易提交成功`);
   } catch (error) {
-    // 表单验证失败
     console.error("表单验证失败:", error);
   }
 };
@@ -466,8 +400,8 @@ onUnmounted(() => {
         label-width="120px"
         class="trade-form"
       >
-        <el-form-item label="项目" class="form-item">
-          <span class="form-text">{{ props.row.projectName }}</span>
+        <el-form-item label="产品" class="form-item">
+          <span class="form-text">{{ props.row.productName }}</span>
         </el-form-item>
         <el-form-item label="到期时间" class="form-item">
           <span class="form-text">{{ props.row.date }}</span>
@@ -479,14 +413,13 @@ onUnmounted(() => {
             >{{ currentDirection }}</span
           >
         </el-form-item>
-        <el-form-item label="数量" prop="quantity" class="form-item">
+        <el-form-item label="数量" prop="volume" class="form-item">
           <el-input-number
-            v-model="tradeForm.quantity"
+            v-model="tradeForm.volume"
             :min="1"
             controls-position="right"
             placeholder="请输入数量"
             class="trade-input"
-            @change="handleFormChange"
           />
           <span class="form-text">&nbsp;&nbsp;手</span>
           <el-tooltip
@@ -500,11 +433,11 @@ onUnmounted(() => {
         <el-form-item label="价格" prop="price" class="form-item">
           <el-input-number
             v-model="tradeForm.price"
-            :min="1"
+            :min="0.01"
+            :precision="2"
             controls-position="right"
             placeholder="请输入价格"
             class="trade-input"
-            @change="handleFormChange"
           />
           <span class="form-text">&nbsp;&nbsp;CNY</span>
         </el-form-item>
@@ -542,17 +475,18 @@ onUnmounted(() => {
         <el-table-column prop="price" label="价格" align="right">
           <template #default="{ row }">
             <span
-              :class="
+              :class="[
+                'price-text',
                 row.direction === '买入' ? 'buy-direction' : 'sell-direction'
-              "
+              ]"
             >
               {{ formatNumber(row.price) }}
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="quantity" label="数量" align="right">
+        <el-table-column prop="volume" label="数量" align="right">
           <template #default="{ row }">
-            {{ formatNumber(row.quantity) }}
+            {{ formatVolume(row.volume) }}
           </template>
         </el-table-column>
         <el-table-column prop="direction" label="方向" align="center">
@@ -573,8 +507,13 @@ onUnmounted(() => {
 
 <style scoped>
 .market-detail {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   height: 100%;
-  overflow: hidden auto;
+  padding: 16px;
+  overflow: auto;
   color: #fff;
   background: #1a2332;
 }
@@ -582,7 +521,10 @@ onUnmounted(() => {
 .chart-container {
   width: 100%;
   height: 400px;
+  margin-bottom: 16px;
+  overflow: hidden;
   background: #1f2937;
+  border-radius: 8px;
 }
 
 .price-chart {
@@ -592,6 +534,9 @@ onUnmounted(() => {
 
 .history-table {
   padding: 16px;
+  margin-top: 16px;
+  background: #1f2937;
+  border-radius: 8px;
 }
 
 :deep(.el-table) {
@@ -698,12 +643,12 @@ onUnmounted(() => {
 
       &.buy-color {
         font-weight: 600;
-        color: #f56c6c;
+        color: #67c23a;
       }
 
       &.sell-color {
         font-weight: 600;
-        color: #67c23a;
+        color: #f56c6c;
       }
     }
 
@@ -746,9 +691,16 @@ onUnmounted(() => {
   }
 }
 
-.normal-price {
+.price-text {
   font-weight: 500;
-  color: #606266;
+
+  &.buy-direction {
+    color: #67c23a;
+  }
+
+  &.sell-direction {
+    color: #f56c6c;
+  }
 }
 
 .dialog-footer {

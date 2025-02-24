@@ -1,5 +1,6 @@
 buttons:
-  pureLoginOut: 退出系统
+  pureAccountSettings: 账户信息
+  pureLoginOut: 登出账户
   pureLogin: 登录
   pureOpenSystemSet: 打开系统配置
   pureReload: 重新加载

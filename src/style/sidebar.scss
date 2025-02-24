@@ -336,7 +336,7 @@
 
     /* 无子菜单时激活 border-bottom */
     a > .is-active.submenu-title-noDropdown {
-      border-bottom: 2px solid var(--el-menu-active-color);
+      border-bottom: 2px solid #32c5ff;
     }
 
     .el-menu--popup {

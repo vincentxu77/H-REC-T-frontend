@@ -50,16 +50,16 @@ const tableData = computed(() => props.data);
         <template #default="{ row }">
           <span
             :class="{
-              'text-red-500': row.bs === '买入',
-              'text-green-500': row.bs === '卖出'
+              'text-green-500': row.bs === '买入',
+              'text-red-500': row.bs === '卖出'
             }"
           >
             {{ row.bs }}
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="quantity" label="数量" min-width="100" />
-      <el-table-column prop="price" label="价格" min-width="100" />
+      <el-table-column prop="quantity" label="数量(手)" min-width="100" />
+      <el-table-column prop="price" label="价格(CNY)" min-width="100" />
       <el-table-column prop="settleDate" label="成交日期" min-width="120" />
       <el-table-column prop="time" label="时间" min-width="100" />
       <el-table-column prop="counterparty" label="对手方" min-width="120" />

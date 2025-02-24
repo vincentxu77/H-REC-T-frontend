@@ -1,16 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
-
-export interface MarketData {
-  projectName: string;
-  date: string;
-  bidQty: number;
-  bidPrice: number;
-  lastTraded: number;
-  offer: number;
-  offerQty: number;
-  trend?: "up" | "down" | "stable";
-}
+import type { MarketData } from "../types";
 
 defineOptions({
   name: "MarketTable"
@@ -74,7 +64,7 @@ const handleRowClick = (row: MarketData) => {
       property="bidPrice"
     >
       <template #default="{ row }">
-        <span class="price-text">{{ row.bidPrice }}</span>
+        <span>{{ row.bidPrice }}</span>
       </template>
     </el-table-column>
     <el-table-column
@@ -111,7 +101,7 @@ const handleRowClick = (row: MarketData) => {
     >
       <template #default="{ row }">
         <div class="offer-cell">
-          <span class="price-text">{{ row.offer || "-" }}</span>
+          <span>{{ row.offer || "-" }}</span>
         </div>
       </template>
     </el-table-column>
@@ -187,10 +177,6 @@ const handleRowClick = (row: MarketData) => {
   -webkit-box-orient: vertical;
 }
 
-.price-text {
-  color: #409eff;
-}
-
 .traded-cell {
   display: flex;
   gap: 4px;
@@ -203,15 +189,15 @@ const handleRowClick = (row: MarketData) => {
 }
 
 .traded-price.up {
-  color: #f56c6c;
+  color: #67c23a;
 }
 
 .traded-price.down {
-  color: #67c23a;
+  color: #f56c6c;
 }
 
 .traded-price.stable {
-  color: #67c23a;
+  color: #909399;
 }
 
 .trend-icon {
@@ -220,15 +206,15 @@ const handleRowClick = (row: MarketData) => {
 }
 
 .trend-icon.up {
-  color: #f56c6c;
+  color: #67c23a;
 }
 
 .trend-icon.down {
-  color: #67c23a;
+  color: #f56c6c;
 }
 
 .trend-icon.stable {
-  color: #67c23a;
+  color: #909399;
 }
 
 .offer-cell {
@@ -248,10 +234,22 @@ const handleRowClick = (row: MarketData) => {
 }
 
 .price-change.up {
-  color: #f56c6c;
+  color: #67c23a;
 }
 
 .price-change.down {
+  color: #f56c6c;
+}
+
+.up {
   color: #67c23a;
+}
+
+.down {
+  color: #f56c6c;
+}
+
+.stable {
+  color: #909399;
 }
 </style>
