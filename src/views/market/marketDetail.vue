@@ -493,6 +493,7 @@ onUnmounted(() => {
             content="1手 = 100吨二氧化碳当量"
             placement="top"
             :show-after="100"
+            effect="light"
           >
             <span class="ep--info-filled info-icon" />
           </el-tooltip>
@@ -514,7 +515,7 @@ onUnmounted(() => {
           <el-button @click="handleCancel">取消</el-button>
           <el-button
             class="submit-button"
-            :type="currentDirection === '买入' ? 'danger' : 'success'"
+            :type="currentDirection === '买入' ? 'success' : 'danger'"
             @click="handleSubmit"
           >
             提交
@@ -808,10 +809,7 @@ onUnmounted(() => {
   height: 16px;
   background-color: currentcolor;
   mask-image: var(--svg);
-  mask-image: var(--svg);
   mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  mask-size: 100% 100%;
   mask-size: 100% 100%;
 }
 </style>
