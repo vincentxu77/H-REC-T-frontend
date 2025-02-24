@@ -72,7 +72,7 @@ defineExpose({
   <div class="position-summary">
     <div class="summary-content">
       <div class="position-item total">
-        <span class="label">总持仓数</span>
+        <span class="label">当前总持仓数</span>
       </div>
       <div class="divider" />
       <div class="position-item">

@@ -475,7 +475,7 @@ onUnmounted(() => {
         <el-form-item label="买/卖" class="form-item">
           <span
             class="form-text"
-            :class="currentDirection === '买入' ? 'buy-color' : 'sell-color'"
+            :class="currentDirection === '买入' ? 'sell-color' : 'buy-color'"
             >{{ currentDirection }}</span
           >
         </el-form-item>
