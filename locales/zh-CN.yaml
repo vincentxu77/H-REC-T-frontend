@@ -78,9 +78,9 @@ menus:
   purePermissionButtonLogin: 登录接口返回按钮权限
 status:
   pureLoad: 加载中...
-  pureMessage: 消息
-  pureNotify: 通知
-  pureTodo: 待办
+  marketDynamics: 市场动态
+  tradeAlert: 交易提醒
+  eventNotice: 活动通知
   pureNoMessage: 暂无消息
   pureNoNotify: 暂无通知
   pureNoTodo: 暂无待办

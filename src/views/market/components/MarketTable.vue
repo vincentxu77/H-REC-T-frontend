@@ -53,12 +53,12 @@ const handleRowClick = (row: MarketData) => {
     <el-table-column prop="date" label="到期时间" min-width="120" />
     <el-table-column
       prop="bidQty"
-      label="买入数量"
+      label="买入数量(手)"
       min-width="120"
       align="right"
     />
     <el-table-column
-      label="买入价格"
+      label="买入价格(CNY)"
       min-width="120"
       align="right"
       property="bidPrice"
@@ -94,7 +94,7 @@ const handleRowClick = (row: MarketData) => {
       </template>
     </el-table-column>
     <el-table-column
-      label="卖出价格"
+      label="卖出价格(CNY)"
       min-width="120"
       align="right"
       property="offer"
@@ -107,7 +107,7 @@ const handleRowClick = (row: MarketData) => {
     </el-table-column>
     <el-table-column
       prop="offerQty"
-      label="卖出数量"
+      label="卖出数量(手)"
       min-width="120"
       align="right"
     />

@@ -3,7 +3,7 @@ import { getConfig } from "@/config";
 import { useRouter } from "vue-router";
 import { emitter } from "@/utils/mitt";
 import Avatar from "@/assets/user.jpg";
-import { getTopMenu } from "@/router/utils";
+// import { getTopMenu } from "@/router/utils";
 import { useFullscreen } from "@vueuse/core";
 import type { routeMetaType } from "../types";
 import { transformI18n } from "@/plugins/i18n";
@@ -102,7 +102,7 @@ export function useNav() {
   }
 
   function backTopMenu() {
-    router.push(getTopMenu()?.path);
+    window.location.href = "http://www.aexmarkets.com/";
   }
 
   function onPanel() {

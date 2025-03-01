@@ -20,35 +20,68 @@ export interface TabItem {
 export const noticesData: TabItem[] = [
   {
     key: "1",
-    name: $t("status.pureNotify"),
-    list: [],
+    name: $t("status.marketDynamics"),
+    list: [
+      {
+        avatar: "",
+        title: "生态环境部发布CCER交易新规",
+        description:
+          "2024年起CCER项目备案将采用新审核标准，新增海上风电、红树林修复等合格项目类型，预计将释放2000万吨碳汇量",
+        datetime: "2小时前",
+        type: "1"
+      },
+      {
+        avatar: "",
+        title: "CCER-12M合约价格创新高",
+        description:
+          "受配额清缴季影响，CCER-12M合约最新成交价达328CNY，单日涨幅4.5%，成交量突破50万手",
+        datetime: "3小时前",
+        type: "1"
+      },
+      {
+        avatar: "",
+        title: "粤港澳大湾区首笔蓝碳交易达成",
+        description:
+          "珠海某海洋牧场完成10万吨蓝碳交易，成交价285CNY，通过本平台CCER-24M合约完成结算",
+        datetime: "5小时前",
+        type: "1"
+      },
+      {
+        avatar: "",
+        title: "中欧碳市场互联互通启动",
+        description:
+          "本平台EUA合约与欧洲能源交易所(EEX)实现跨市场交易，支持EUA/CCER互换套期保值",
+        datetime: "1天前",
+        type: "1"
+      }
+    ],
     emptyText: $t("status.pureNoNotify")
   },
   {
     key: "2",
-    name: $t("status.pureMessage"),
+    name: $t("status.tradeAlert"),
     list: [
       {
         avatar: "",
-        title: "交易成功通知",
+        title: "CCER-12M-03挂单成交",
         description:
-          "您的EUA Dec-24期货交易已成功，成交价格65.23欧元/吨，成交数量100手。",
+          "您的CCER-12M-03卖出挂单已部分成交，成交价格318CNY，成交数量15手，剩余10手",
         datetime: "刚刚",
         type: "2"
       },
       {
         avatar: "",
-        title: "CCER交易提醒",
+        title: "价格波动提醒",
         description:
-          "您的CCER-12M-01挂单已成交，成交价格310元/吨，成交数量25手。",
-        datetime: "10分钟前",
+          "CCER-24M-05合约价格突破260CNY，较您持仓成本上涨12%，建议关注止盈机会",
+        datetime: "15分钟前",
         type: "2"
       },
       {
         avatar: "",
-        title: "系统维护通知",
+        title: "大宗交易撮合成功",
         description:
-          "系统将于2024-03-20 22:00-次日02:00进行例行维护，维护期间暂停交易服务，请做好相关安排。",
+          "您发起的CCER-36M-08 50手买入意向已匹配卖方报价，可成交价295CNY，请及时确认",
         datetime: "30分钟前",
         type: "2"
       }
@@ -57,41 +90,26 @@ export const noticesData: TabItem[] = [
   },
   {
     key: "3",
-    name: $t("status.pureTodo"),
+    name: $t("status.eventNotice"),
     list: [
       {
         avatar: "",
-        title: "碳排放核查提醒",
-        description: "请及时提交2023年度碳排放数据核查报告",
+        title: "碳交易培训研讨会",
+        description:
+          "3月25日14:00线上举办CCER期货套保策略讲座，报名截止3月20日",
         datetime: "",
-        extra: "剩余3天",
-        status: "danger",
-        type: "3"
-      },
-      {
-        avatar: "",
-        title: "配额清缴通知",
-        description: "2023年度碳排放配额清缴截止日期：2024-06-30",
-        datetime: "",
-        extra: "剩余90天",
-        status: "warning",
-        type: "3"
-      },
-      {
-        avatar: "",
-        title: "交易资格审核",
-        description: "您的交易资格申请正在审核中",
-        datetime: "",
-        extra: "处理中",
-        type: "3"
-      },
-      {
-        avatar: "",
-        title: "开户确认",
-        description: "请补充提交企业营业执照等开户所需材料",
-        datetime: "",
-        extra: "待处理",
+        extra: "剩余5天",
         status: "info",
+        type: "3"
+      },
+      {
+        avatar: "",
+        title: "年度配额预分配",
+        description:
+          "2025年度碳排放配额预分配将于4月1日启动，请确保账户资金充足",
+        datetime: "",
+        extra: "剩余12天",
+        status: "warning",
         type: "3"
       }
     ],

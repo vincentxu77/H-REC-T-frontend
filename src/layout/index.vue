@@ -93,7 +93,7 @@ useResizeObserver(appWrapperRef, entries => {
   const entry = entries[0];
   const [{ inlineSize: width, blockSize: height }] = entry.borderBoxSize;
   useAppStoreHook().setViewportSize({ width, height });
-  width <= 760 ? setTheme("vertical") : setTheme(useAppStoreHook().layout);
+  width <= 760 ? setTheme("horizontal") : setTheme(useAppStoreHook().layout);
   /** width app-wrapper类容器宽度
    * 0 < width <= 760 隐藏侧边栏
    * 760 < width <= 990 折叠侧边栏

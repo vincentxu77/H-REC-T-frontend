@@ -60,7 +60,7 @@ const handleRowClick = (row: EUAData) => {
     <el-table-column prop="productName" label="产品名称" min-width="120" />
     <el-table-column
       prop="openPrice"
-      label="开盘价"
+      label="开盘价(CNY)"
       align="right"
       min-width="100"
     >
@@ -70,7 +70,7 @@ const handleRowClick = (row: EUAData) => {
     </el-table-column>
     <el-table-column
       prop="lastPrice"
-      label="最新价"
+      label="最新价(CNY)"
       align="right"
       min-width="100"
     >
@@ -89,7 +89,7 @@ const handleRowClick = (row: EUAData) => {
     </el-table-column>
     <el-table-column
       prop="highPrice"
-      label="最高价"
+      label="最高价(CNY)"
       align="right"
       min-width="100"
     >
@@ -99,7 +99,7 @@ const handleRowClick = (row: EUAData) => {
     </el-table-column>
     <el-table-column
       prop="lowPrice"
-      label="最低价"
+      label="最低价(CNY)"
       align="right"
       min-width="100"
     >
@@ -107,7 +107,12 @@ const handleRowClick = (row: EUAData) => {
         {{ formatNumber(row.lowPrice) }}
       </template>
     </el-table-column>
-    <el-table-column prop="volume" label="成交量" align="right" min-width="100">
+    <el-table-column
+      prop="volume"
+      label="成交量(手)"
+      align="right"
+      min-width="100"
+    >
       <template #default="{ row }">
         {{ formatVolume(row.volume) }}
       </template>

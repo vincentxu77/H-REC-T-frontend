@@ -547,8 +547,8 @@ onMounted(() => {
     });
   });
 
-  useResizeObserver(scrollbarDom, dynamicTagView);
-  delay().then(() => dynamicTagView());
+  // useResizeObserver(scrollbarDom, dynamicTagView);
+  // delay().then(() => dynamicTagView());
 });
 
 onBeforeUnmount(() => {

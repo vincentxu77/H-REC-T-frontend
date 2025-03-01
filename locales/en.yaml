@@ -74,9 +74,9 @@ menus:
   purePermissionButtonLogin: Login interface return button permission
 status:
   pureLoad: Loading...
-  pureMessage: Message
-  pureNotify: Notify
-  pureTodo: Todo
+  marketDynamics: Market Dynamics
+  tradeAlert: Trade Alert
+  eventNotice: Event Notice
   pureNoMessage: No Message
   pureNoNotify: No Notify
   pureNoTodo: No Todo

@@ -77,7 +77,8 @@ const generateTradeRecords = () => {
   for (let i = 9; i >= 0; i--) {
     const time = now.subtract(i * 15, "minute");
     const direction = Math.random() > 0.5 ? 1 : -1;
-    const change = direction * (Math.random() * 0.5); // 最大变化0.5欧元
+    // 增大价格变化幅度，从0.5增加到2.0，让曲线波动更明显
+    const change = direction * (Math.random() * 2.0);
     const price = Number((lastPrice + change).toFixed(2));
     lastPrice = price;
 
@@ -114,6 +115,10 @@ const initPriceChart = async () => {
 
   priceChart = echarts.init(chartRef.value);
   window.addEventListener("resize", handleResize);
+
+  // 计算y轴的最小值和最大值，使曲线更加突出
+  const minPrice = Math.min(...prices) - 1;
+  const maxPrice = Math.max(...prices) + 1;
 
   const option: EChartsOption = {
     backgroundColor: "#1a2332",
@@ -170,6 +175,8 @@ const initPriceChart = async () => {
         padding: [0, 30, 0, 0]
       },
       position: "left",
+      min: minPrice, // 设置y轴最小值
+      max: maxPrice, // 设置y轴最大值
       axisLine: {
         show: true,
         lineStyle: {
@@ -240,7 +247,16 @@ let refreshTimer: number | null = null;
 const refreshData = () => {
   const { records, times, prices } = generateTradeRecords();
   historyData.value = records;
+
+  // 计算新的y轴范围
+  const minPrice = Math.min(...prices) - 1;
+  const maxPrice = Math.max(...prices) + 1;
+
   priceChart?.setOption({
+    yAxis: {
+      min: minPrice,
+      max: maxPrice
+    },
     xAxis: {
       data: times
     },

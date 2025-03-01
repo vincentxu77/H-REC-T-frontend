@@ -92,7 +92,7 @@ const getLabel = computed(
   }
 
   :deep(.el-tabs__nav-wrap) {
-    padding: 0 36px;
+    padding: 0 16px;
   }
 }
 </style>

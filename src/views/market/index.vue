@@ -24,7 +24,7 @@ const positionSummaryRef = inject<
 const ccer12TableData = ref<MarketData[]>([
   {
     projectName: "CCER-12M-01",
-    date: "2025-01-16",
+    date: "2026-01-16",
     bidQty: 25,
     bidPrice: 310,
     lastTraded: 310,
@@ -34,7 +34,7 @@ const ccer12TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-12M-02",
-    date: "2025-02-23",
+    date: "2026-02-23",
     bidQty: 50,
     bidPrice: 315,
     lastTraded: 316,
@@ -44,7 +44,7 @@ const ccer12TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-12M-03",
-    date: "2025-03-30",
+    date: "2026-03-30",
     bidQty: 25,
     bidPrice: 308,
     lastTraded: 310,
@@ -54,7 +54,7 @@ const ccer12TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-12M-04",
-    date: "2025-04-07",
+    date: "2026-04-07",
     bidQty: 35,
     bidPrice: 322,
     lastTraded: 325,
@@ -64,7 +64,7 @@ const ccer12TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-12M-05",
-    date: "2025-05-14",
+    date: "2026-05-14",
     bidQty: 40,
     bidPrice: 318,
     lastTraded: 315,
@@ -74,7 +74,7 @@ const ccer12TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-12M-06",
-    date: "2025-06-21",
+    date: "2026-06-21",
     bidQty: 30,
     bidPrice: 305,
     lastTraded: 308,
@@ -84,7 +84,7 @@ const ccer12TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-12M-07",
-    date: "2025-07-28",
+    date: "2026-07-28",
     bidQty: 45,
     bidPrice: 312,
     lastTraded: 314,
@@ -94,7 +94,7 @@ const ccer12TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-12M-08",
-    date: "2025-08-04",
+    date: "2026-08-04",
     bidQty: 20,
     bidPrice: 300,
     lastTraded: 298,
@@ -104,7 +104,7 @@ const ccer12TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-12M-09",
-    date: "2025-09-11",
+    date: "2026-09-11",
     bidQty: 55,
     bidPrice: 292,
     lastTraded: 290,
@@ -114,7 +114,7 @@ const ccer12TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-12M-10",
-    date: "2025-10-18",
+    date: "2026-10-18",
     bidQty: 60,
     bidPrice: 285,
     lastTraded: 288,
@@ -128,7 +128,7 @@ const ccer12TableData = ref<MarketData[]>([
 const ccer24TableData = ref<MarketData[]>([
   {
     projectName: "CCER-24M-01",
-    date: "2025-01-19",
+    date: "2027-01-19",
     bidQty: 50,
     bidPrice: 290,
     lastTraded: 292,
@@ -138,7 +138,7 @@ const ccer24TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-24M-02",
-    date: "2025-02-19",
+    date: "2027-02-19",
     bidQty: 25,
     bidPrice: 271,
     lastTraded: 276,
@@ -148,7 +148,7 @@ const ccer24TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-24M-03",
-    date: "2025-03-19",
+    date: "2027-03-19",
     bidQty: 50,
     bidPrice: 240,
     lastTraded: 240,
@@ -158,7 +158,7 @@ const ccer24TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-24M-04",
-    date: "2025-04-19",
+    date: "2027-04-19",
     bidQty: 35,
     bidPrice: 245,
     lastTraded: 248,
@@ -168,7 +168,7 @@ const ccer24TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-24M-05",
-    date: "2025-05-19",
+    date: "2027-05-19",
     bidQty: 45,
     bidPrice: 255,
     lastTraded: 258,
@@ -178,7 +178,7 @@ const ccer24TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-24M-06",
-    date: "2025-06-19",
+    date: "2027-06-19",
     bidQty: 40,
     bidPrice: 262,
     lastTraded: 260,
@@ -188,7 +188,7 @@ const ccer24TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-24M-07",
-    date: "2025-07-19",
+    date: "2027-07-19",
     bidQty: 30,
     bidPrice: 252,
     lastTraded: 250,
@@ -198,7 +198,7 @@ const ccer24TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-24M-08",
-    date: "2025-08-19",
+    date: "2027-08-19",
     bidQty: 55,
     bidPrice: 245,
     lastTraded: 248,
@@ -208,7 +208,7 @@ const ccer24TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-24M-09",
-    date: "2025-09-19",
+    date: "2027-09-19",
     bidQty: 60,
     bidPrice: 252,
     lastTraded: 255,
@@ -218,7 +218,7 @@ const ccer24TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-24M-10",
-    date: "2025-10-19",
+    date: "2027-10-19",
     bidQty: 50,
     bidPrice: 260,
     lastTraded: 262,
@@ -232,7 +232,7 @@ const ccer24TableData = ref<MarketData[]>([
 const ccer36TableData = ref<MarketData[]>([
   {
     projectName: "CCER-36M-01",
-    date: "2025-01-10",
+    date: "2028-01-10",
     bidQty: 25,
     bidPrice: 265,
     lastTraded: 266,
@@ -242,7 +242,7 @@ const ccer36TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-36M-02",
-    date: "2025-02-10",
+    date: "2028-02-10",
     bidQty: 25,
     bidPrice: 234,
     lastTraded: 232,
@@ -252,7 +252,7 @@ const ccer36TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-36M-03",
-    date: "2025-03-10",
+    date: "2028-03-10",
     bidQty: 25,
     bidPrice: 310,
     lastTraded: 312,
@@ -262,7 +262,7 @@ const ccer36TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-36M-04",
-    date: "2025-04-10",
+    date: "2028-04-10",
     bidQty: 30,
     bidPrice: 305,
     lastTraded: 308,
@@ -272,7 +272,7 @@ const ccer36TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-36M-05",
-    date: "2025-05-10",
+    date: "2028-05-10",
     bidQty: 35,
     bidPrice: 298,
     lastTraded: 295,
@@ -282,7 +282,7 @@ const ccer36TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-36M-06",
-    date: "2025-06-10",
+    date: "2028-06-10",
     bidQty: 40,
     bidPrice: 288,
     lastTraded: 290,
@@ -292,7 +292,7 @@ const ccer36TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-36M-07",
-    date: "2025-07-10",
+    date: "2028-07-10",
     bidQty: 45,
     bidPrice: 295,
     lastTraded: 298,
@@ -302,7 +302,7 @@ const ccer36TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-36M-08",
-    date: "2025-08-10",
+    date: "2028-08-10",
     bidQty: 50,
     bidPrice: 302,
     lastTraded: 300,
@@ -312,7 +312,7 @@ const ccer36TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-36M-09",
-    date: "2025-09-10",
+    date: "2028-09-10",
     bidQty: 55,
     bidPrice: 292,
     lastTraded: 295,
@@ -322,7 +322,7 @@ const ccer36TableData = ref<MarketData[]>([
   },
   {
     projectName: "CCER-36M-10",
-    date: "2025-10-10",
+    date: "2028-10-10",
     bidQty: 60,
     bidPrice: 300,
     lastTraded: 302,
@@ -487,18 +487,17 @@ const handleDataUpdate = (updatedRow: MarketData | EUAData) => {
   saveTableDataToStorage();
 };
 
+// 在 onMounted 之前先清除旧数据
+localStorage.removeItem("marketTableData");
+
 // 初始化数据
 onMounted(() => {
   const storedData = getTableDataFromStorage();
-  if (storedData) {
-    ccer12TableData.value = storedData["CCER-12M"] || ccer12TableData.value;
-    ccer24TableData.value = storedData["CCER-24M"] || ccer24TableData.value;
-    ccer36TableData.value = storedData["CCER-36M"] || ccer36TableData.value;
-    euaTableData.value = storedData["EUA"] || euaTableData.value;
-  } else {
+  if (!storedData) {
     // 如果没有存储的数据，保存初始数据
     saveTableDataToStorage();
   }
+  // 注意：这里移除了从 localStorage 读取数据的逻辑，保证使用代码中的新数据
 });
 
 // 监听表格数据变化
