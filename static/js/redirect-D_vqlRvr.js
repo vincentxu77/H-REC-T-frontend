@@ -1,0 +1,1 @@
+import{d as c,u as s,c as p,k as u,o as _}from"./index-BUe-CBK6.js";const l=c({name:"Redirect",__name:"redirect",setup(i){const{currentRoute:r,replace:t}=u(),{params:a,query:n}=s(r),{path:e}=a,o=Array.isArray(e)?e.join("/"):e;return t({path:"/"+o,query:n}),(m,d)=>(_(),p("div"))}});export{l as default};
