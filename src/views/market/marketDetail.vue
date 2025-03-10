@@ -475,7 +475,7 @@ onUnmounted(() => {
         <el-form-item label="买/卖" class="form-item">
           <span
             class="form-text"
-            :class="currentDirection === '买入' ? 'sell-color' : 'buy-color'"
+            :class="currentDirection === '买入' ? 'buy-color' : 'sell-color'"
             >{{ currentDirection }}</span
           >
         </el-form-item>
@@ -573,6 +573,8 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+@import url("@/style/trade-form.scss");
+
 .market-detail {
   height: 100%;
   overflow: hidden auto;
@@ -596,6 +598,13 @@ onUnmounted(() => {
 }
 
 :deep(.el-table) {
+  /* 修改表格基础变量 */
+  --el-table-border-color: var(--el-border-color-lighter);
+  --el-table-bg-color: var(--el-bg-color);
+  --el-table-tr-bg-color: var(--el-bg-color);
+  --el-table-header-bg-color: var(--el-bg-color-overlay);
+  --el-table-row-hover-bg-color: var(--el-fill-color-light);
+
   background: transparent !important;
 }
 
@@ -625,46 +634,29 @@ onUnmounted(() => {
 }
 
 .trade-button {
-  width: 120px;
-  height: 40px;
-  font-size: 16px;
-  font-weight: 500;
-}
-
-:deep(.trade-button.el-button--danger) {
-  --el-button-bg-color: #f56c6c;
-  --el-button-border-color: #f56c6c;
-  --el-button-hover-bg-color: #db5c5c;
-  --el-button-hover-border-color: #db5c5c;
-  --el-button-active-bg-color: #c45151;
-  --el-button-active-border-color: #c45151;
-}
-
-:deep(.trade-button.el-button--success) {
-  --el-button-bg-color: #67c23a;
-  --el-button-border-color: #67c23a;
-  --el-button-hover-bg-color: #5daf34;
-  --el-button-hover-border-color: #5daf34;
-  --el-button-active-bg-color: #529a2e;
-  --el-button-active-border-color: #529a2e;
+  width: 120px !important;
+  height: 40px !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
 }
 
 .trade-dialog {
   :deep(.el-dialog) {
     overflow: hidden;
+    background: #1a2332;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 30%);
 
     .el-dialog__header {
       padding: 20px 24px;
       margin: 0;
-      background: #f5f7fa;
-      border-bottom: 1px solid #e4e7ed;
+      background: #2a3446;
+      border-bottom: 1px solid #374151;
 
       .el-dialog__title {
         font-size: 18px;
         font-weight: 600;
-        color: #303133;
+        color: #fff;
       }
     }
 
@@ -674,75 +666,8 @@ onUnmounted(() => {
 
     .el-dialog__footer {
       padding: 12px 24px;
-      border-top: 1px solid #e4e7ed;
-    }
-  }
-}
-
-.trade-form {
-  .form-item {
-    margin-bottom: 24px;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-
-    :deep(.el-form-item__label) {
-      font-weight: 500;
-      color: #606266;
-    }
-
-    .form-text {
-      font-size: 14px;
-      font-weight: 500;
-      color: #303133;
-
-      &.buy-color {
-        font-weight: 600;
-        color: #f56c6c;
-      }
-
-      &.sell-color {
-        font-weight: 600;
-        color: #67c23a;
-      }
-    }
-
-    :deep(.el-input-number) {
-      width: 200px;
-
-      .el-input__wrapper {
-        padding: 1px 11px;
-        border-radius: 4px;
-        box-shadow: 0 0 0 1px #dcdfe6 inset;
-        transition: all 0.2s;
-
-        &:hover {
-          box-shadow: 0 0 0 1px #c0c4cc inset;
-        }
-
-        &.is-focus {
-          box-shadow: 0 0 0 1px var(--el-color-primary) inset;
-        }
-      }
-
-      .el-input-number__decrease,
-      .el-input-number__increase {
-        background: #f5f7fa;
-        border-color: #dcdfe6;
-        transition: all 0.2s;
-
-        &:hover {
-          color: var(--el-color-primary);
-          background: #e4e7ed;
-        }
-      }
-
-      .el-input__inner {
-        height: 36px;
-        font-size: 14px;
-        line-height: 36px;
-      }
+      background: #2a3446;
+      border-top: 1px solid #374151;
     }
   }
 }
@@ -781,6 +706,7 @@ onUnmounted(() => {
       --el-button-hover-border-color: #db5c5c;
       --el-button-active-bg-color: #c45151;
       --el-button-active-border-color: #c45151;
+      --el-button-text-color: #fff;
     }
 
     &--success {
@@ -790,6 +716,7 @@ onUnmounted(() => {
       --el-button-hover-border-color: #5daf34;
       --el-button-active-bg-color: #529a2e;
       --el-button-active-border-color: #529a2e;
+      --el-button-text-color: #fff;
     }
   }
 }

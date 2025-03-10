@@ -165,7 +165,9 @@ const handleReset = () => {
 .counterparties-container {
   min-height: calc(100vh - 150px);
   padding: 20px;
-  background: #fff;
+  background: var(--el-bg-color);
+  border: 1px solid var(--el-border-color-lighter);
+  border-radius: 4px;
 }
 
 .header {
@@ -176,7 +178,7 @@ const handleReset = () => {
   margin-bottom: 20px;
   font-size: 20px;
   font-weight: 600;
-  color: #1a1a1a;
+  color: var(--el-text-color-primary);
 }
 
 .filters {
@@ -191,6 +193,21 @@ const handleReset = () => {
 
 .counterparties-table {
   margin-top: 20px;
+
+  :deep(.el-table) {
+    --el-table-border-color: var(--el-border-color-lighter);
+    --el-table-header-bg-color: var(--el-bg-color-overlay);
+    --el-table-row-hover-bg-color: var(--el-fill-color-light);
+
+    th {
+      color: var(--el-text-color-regular);
+      background-color: var(--el-bg-color-overlay) !important;
+    }
+
+    td {
+      color: var(--el-text-color-primary);
+    }
+  }
 
   :deep(.el-table__row) {
     cursor: pointer;
@@ -222,11 +239,11 @@ const handleReset = () => {
   .label {
     margin-right: 10px;
     font-weight: 600;
-    color: #606266;
+    color: var(--el-text-color-regular);
   }
 
   .value {
-    color: #333;
+    color: var(--el-text-color-primary);
   }
 }
 
@@ -234,13 +251,15 @@ const handleReset = () => {
   :deep(.el-drawer__header) {
     padding: 20px;
     margin-bottom: 0;
-    border-bottom: 1px solid #e4e7ed;
+    color: var(--el-text-color-primary);
+    border-bottom: 1px solid var(--el-border-color-lighter);
   }
 
   :deep(.el-drawer__body) {
     height: calc(100% - 72px);
     padding: 0;
     overflow-y: auto;
+    background: var(--el-bg-color);
   }
 }
 </style>

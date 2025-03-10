@@ -104,7 +104,7 @@ const initScrollAnimation = () => {
   const content = scrollContentRef.value;
   if (!container || !content) return;
 
-  const itemsWrapper = content.querySelector(".position-items");
+  const itemsWrapper = content.querySelector(".position-items") as HTMLElement;
   if (!itemsWrapper) return;
 
   // 保存第一份内容的克隆并转换类型
@@ -150,7 +150,7 @@ const handleAnimationFrame = () => {
   const content = scrollContentRef.value;
   if (!container || !content || isAnimationPaused.value) return;
 
-  const itemsWrapper = content.querySelector(".position-items");
+  const itemsWrapper = content.querySelector(".position-items") as HTMLElement;
   if (!itemsWrapper) return;
 
   const contentWidth = itemsWrapper.offsetWidth;
@@ -306,9 +306,13 @@ defineExpose({
   width: 100%;
   padding: 0 24px;
   margin-bottom: 20px;
-  background: linear-gradient(to right, #fff, #f8fafc);
-  border: 1px solid #ebeef5;
-  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 5%);
+  background: linear-gradient(
+    to right,
+    var(--el-bg-color),
+    var(--el-bg-color-overlay)
+  );
+  border: 1px solid var(--el-border-color);
+  box-shadow: 0 2px 12px 0 var(--el-box-shadow);
   transition: top 0.3s ease-in-out;
 }
 
@@ -321,7 +325,7 @@ defineExpose({
 
 .left-section {
   min-width: 104px;
-  border-right: 1px solid #dcdfe6;
+  border-right: 1px solid var(--el-border-color);
 }
 
 .middle-section {
@@ -336,7 +340,7 @@ defineExpose({
   gap: 24px;
   min-width: 240px;
   padding-left: 24px;
-  border-left: 1px solid #dcdfe6;
+  border-left: 1px solid var(--el-border-color);
 }
 
 .position-item {
@@ -356,20 +360,20 @@ defineExpose({
 .time-label {
   font-size: 14px;
   font-weight: 500;
-  color: #606266;
+  color: var(--el-text-color-regular);
 }
 
 .time-value {
   font-family: "Helvetica Neue", Helvetica, monospace;
   font-size: 16px;
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 .label {
   font-size: 14px;
   font-weight: 500;
-  color: #606266;
+  color: var(--el-text-color-regular);
 }
 
 .value {
@@ -377,13 +381,13 @@ defineExpose({
     "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
   font-size: 16px;
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 .unit {
   margin-left: 2px;
   font-size: 12px;
-  color: #909399;
+  color: var(--el-text-color-secondary);
 }
 
 .total .unit {

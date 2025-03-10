@@ -10,6 +10,7 @@ export interface EUAData {
 }
 
 export interface MarketData {
+  [x: string]: string | number;
   projectName: string;
   date: string;
   bidQty: number;

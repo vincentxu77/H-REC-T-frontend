@@ -1,0 +1,70 @@
+.trade-form {
+  .form-item {
+    margin-bottom: 24px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    :deep(.el-form-item__label) {
+      font-weight: 500;
+      color: #e5e7eb;
+    }
+
+    .form-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+
+      &.buy-color {
+        font-weight: 600;
+        color: #67c23a;
+      }
+
+      &.sell-color {
+        font-weight: 600;
+        color: #f56c6c;
+      }
+    }
+
+    :deep(.el-input-number) {
+      width: 200px;
+
+      .el-input__wrapper {
+        padding: 1px 11px;
+        color: #fff;
+        background: #374151;
+        border-radius: 4px;
+        box-shadow: 0 0 0 1px #4b5563 inset;
+        transition: all 0.2s;
+
+        &:hover {
+          box-shadow: 0 0 0 1px #6b7280 inset;
+        }
+
+        &.is-focus {
+          box-shadow: 0 0 0 1px var(--el-color-primary) inset;
+        }
+      }
+
+      .el-input-number__decrease,
+      .el-input-number__increase {
+        color: #e5e7eb;
+        background: #2a3446;
+        border-color: #4b5563;
+        transition: all 0.2s;
+
+        &:hover {
+          color: var(--el-color-primary);
+          background: #374151;
+        }
+      }
+
+      .el-input__inner {
+        height: 36px;
+        font-size: 14px;
+        line-height: 36px;
+      }
+    }
+  }
+}

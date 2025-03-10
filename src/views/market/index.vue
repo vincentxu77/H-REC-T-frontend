@@ -30,6 +30,7 @@ const ccer12TableData = ref<MarketData[]>([
     lastTraded: 310,
     offer: 314,
     offerQty: 50,
+    highPrice: 316,
     trend: "up"
   },
   {
@@ -40,6 +41,7 @@ const ccer12TableData = ref<MarketData[]>([
     lastTraded: 316,
     offer: 318,
     offerQty: 25,
+    highPrice: 320,
     trend: "up"
   },
   {
@@ -50,6 +52,7 @@ const ccer12TableData = ref<MarketData[]>([
     lastTraded: 310,
     offer: 320,
     offerQty: 25,
+    highPrice: 322,
     trend: "up"
   },
   {
@@ -60,6 +63,7 @@ const ccer12TableData = ref<MarketData[]>([
     lastTraded: 325,
     offer: 328,
     offerQty: 35,
+    highPrice: 330,
     trend: "up"
   },
   {
@@ -70,6 +74,7 @@ const ccer12TableData = ref<MarketData[]>([
     lastTraded: 315,
     offer: 313,
     offerQty: 40,
+    highPrice: 320,
     trend: "down"
   },
   {
@@ -80,6 +85,7 @@ const ccer12TableData = ref<MarketData[]>([
     lastTraded: 308,
     offer: 310,
     offerQty: 30,
+    highPrice: 312,
     trend: "up"
   },
   {
@@ -90,6 +96,7 @@ const ccer12TableData = ref<MarketData[]>([
     lastTraded: 314,
     offer: 316,
     offerQty: 45,
+    highPrice: 318,
     trend: "up"
   },
   {
@@ -100,6 +107,7 @@ const ccer12TableData = ref<MarketData[]>([
     lastTraded: 298,
     offer: 295,
     offerQty: 20,
+    highPrice: 302,
     trend: "down"
   },
   {
@@ -110,6 +118,7 @@ const ccer12TableData = ref<MarketData[]>([
     lastTraded: 290,
     offer: 288,
     offerQty: 55,
+    highPrice: 294,
     trend: "down"
   },
   {
@@ -120,6 +129,7 @@ const ccer12TableData = ref<MarketData[]>([
     lastTraded: 288,
     offer: 290,
     offerQty: 60,
+    highPrice: 292,
     trend: "up"
   }
 ]);
@@ -134,6 +144,7 @@ const ccer24TableData = ref<MarketData[]>([
     lastTraded: 292,
     offer: 294,
     offerQty: 50,
+    highPrice: 296,
     trend: "down"
   },
   {
@@ -144,6 +155,7 @@ const ccer24TableData = ref<MarketData[]>([
     lastTraded: 276,
     offer: 275,
     offerQty: 25,
+    highPrice: 278,
     trend: "up"
   },
   {
@@ -154,6 +166,7 @@ const ccer24TableData = ref<MarketData[]>([
     lastTraded: 240,
     offer: 242,
     offerQty: 50,
+    highPrice: 245,
     trend: "down"
   },
   {
@@ -164,6 +177,7 @@ const ccer24TableData = ref<MarketData[]>([
     lastTraded: 248,
     offer: 250,
     offerQty: 35,
+    highPrice: 252,
     trend: "up"
   },
   {
@@ -174,6 +188,7 @@ const ccer24TableData = ref<MarketData[]>([
     lastTraded: 258,
     offer: 260,
     offerQty: 45,
+    highPrice: 262,
     trend: "up"
   },
   {
@@ -184,6 +199,7 @@ const ccer24TableData = ref<MarketData[]>([
     lastTraded: 260,
     offer: 258,
     offerQty: 40,
+    highPrice: 264,
     trend: "down"
   },
   {
@@ -194,6 +210,7 @@ const ccer24TableData = ref<MarketData[]>([
     lastTraded: 250,
     offer: 248,
     offerQty: 30,
+    highPrice: 254,
     trend: "down"
   },
   {
@@ -204,6 +221,7 @@ const ccer24TableData = ref<MarketData[]>([
     lastTraded: 248,
     offer: 250,
     offerQty: 55,
+    highPrice: 252,
     trend: "up"
   },
   {
@@ -214,6 +232,7 @@ const ccer24TableData = ref<MarketData[]>([
     lastTraded: 255,
     offer: 258,
     offerQty: 60,
+    highPrice: 260,
     trend: "up"
   },
   {
@@ -224,6 +243,7 @@ const ccer24TableData = ref<MarketData[]>([
     lastTraded: 262,
     offer: 265,
     offerQty: 50,
+    highPrice: 268,
     trend: "up"
   }
 ]);
@@ -238,6 +258,7 @@ const ccer36TableData = ref<MarketData[]>([
     lastTraded: 266,
     offer: 266,
     offerQty: 25,
+    highPrice: 268,
     trend: "stable"
   },
   {
@@ -248,6 +269,7 @@ const ccer36TableData = ref<MarketData[]>([
     lastTraded: 232,
     offer: 238,
     offerQty: 25,
+    highPrice: 240,
     trend: "up"
   },
   {
@@ -258,6 +280,7 @@ const ccer36TableData = ref<MarketData[]>([
     lastTraded: 312,
     offer: 318,
     offerQty: 25,
+    highPrice: 320,
     trend: "up"
   },
   {
@@ -268,6 +291,7 @@ const ccer36TableData = ref<MarketData[]>([
     lastTraded: 308,
     offer: 310,
     offerQty: 30,
+    highPrice: 312,
     trend: "up"
   },
   {
@@ -278,6 +302,7 @@ const ccer36TableData = ref<MarketData[]>([
     lastTraded: 295,
     offer: 293,
     offerQty: 35,
+    highPrice: 300,
     trend: "down"
   },
   {
@@ -288,6 +313,7 @@ const ccer36TableData = ref<MarketData[]>([
     lastTraded: 290,
     offer: 292,
     offerQty: 40,
+    highPrice: 294,
     trend: "up"
   },
   {
@@ -298,6 +324,7 @@ const ccer36TableData = ref<MarketData[]>([
     lastTraded: 298,
     offer: 300,
     offerQty: 45,
+    highPrice: 302,
     trend: "up"
   },
   {
@@ -308,6 +335,7 @@ const ccer36TableData = ref<MarketData[]>([
     lastTraded: 300,
     offer: 298,
     offerQty: 50,
+    highPrice: 304,
     trend: "down"
   },
   {
@@ -318,6 +346,7 @@ const ccer36TableData = ref<MarketData[]>([
     lastTraded: 295,
     offer: 297,
     offerQty: 55,
+    highPrice: 299,
     trend: "up"
   },
   {
@@ -328,6 +357,7 @@ const ccer36TableData = ref<MarketData[]>([
     lastTraded: 302,
     offer: 305,
     offerQty: 60,
+    highPrice: 308,
     trend: "up"
   }
 ]);
@@ -577,8 +607,10 @@ watch(
 .market-container {
   min-height: calc(100vh - 150px);
   padding: 20px;
-  margin: 45px 24px 0 !important;
-  background: #fff;
+  margin: 50px 24px 0 !important;
+  background: var(--el-bg-color);
+  border: 1px solid var(--el-border-color-lighter);
+  border-radius: 4px;
 }
 
 .market-header {
@@ -591,14 +623,15 @@ watch(
   margin-right: 20px;
   font-size: 16px;
   font-weight: 500;
-  color: #333;
+  color: var(--el-text-color-primary);
 }
 
 .market-content {
   margin-bottom: 20px;
-  background: #fff;
+  background: var(--el-bg-color);
+  border: 1px solid var(--el-border-color-lighter);
   border-radius: 4px;
-  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+  box-shadow: var(--el-box-shadow-light);
 }
 
 .market-detail-drawer {
@@ -609,12 +642,21 @@ watch(
   }
 }
 
-:deep(.el-radio-button__inner:hover) {
-  color: #336cfb;
-}
-
 :deep(.el-radio-button__inner) {
   min-width: 108px;
+  color: var(--el-text-color-regular);
+  background: var(--el-bg-color);
+  border-color: var(--el-border-color);
+}
+
+:deep(.el-radio-button__inner:hover) {
+  color: #fff;
+}
+
+:deep(.el-radio-button__orig-radio:checked + .el-radio-button__inner) {
+  color: #fff;
+  background-color: var(--el-color-primary);
+  border-color: var(--el-color-primary);
 }
 
 :deep(.el-radio-button__orig-radio:checked + .el-radio-button__inner:hover) {

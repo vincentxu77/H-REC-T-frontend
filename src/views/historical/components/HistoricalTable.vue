@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
+// 为每行数据生成标的物代码
+const generateCode = (row: HistoricalData): string => {
+  // 如果已有code则使用，否则生成新的
+  if (row.code) return row.code;
+  const randomDigits = Math.floor(10000 + Math.random() * 90000); // 生成5位随机数字
+  return `A1${randomDigits}`;
+};
+
 interface HistoricalData {
   projectName: string;
   date: string;
@@ -15,6 +23,7 @@ interface HistoricalData {
   status: string;
   lastTraded: number;
   trend: "up" | "down" | "stable";
+  code?: string;
 }
 
 const props = defineProps<{
@@ -43,8 +52,21 @@ const tableData = computed(() => props.data);
       @row-click="handleRowClick"
     >
       <el-table-column prop="trader" label="交易员" min-width="120" />
-      <el-table-column prop="product" label="产品" min-width="150" />
-      <el-table-column prop="projectName" label="合约名称" min-width="120" />
+      <el-table-column prop="product" label="产品" min-width="150">
+        <template #default="{ row }">
+          <span class="product-name-color">{{ row.product }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="标的物代码" min-width="150">
+        <template #default="{ row }">
+          <span class="code-color">{{ generateCode(row) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="projectName" label="标的物名称" min-width="120">
+        <template #default="{ row }">
+          <span class="product-name-color">{{ row.projectName }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="date" label="到期日" min-width="120" />
       <el-table-column prop="bs" label="买卖" min-width="80">
         <template #default="{ row }">
@@ -78,6 +100,16 @@ const tableData = computed(() => props.data);
 </template>
 
 <style scoped>
+/* 标的物代码颜色 - 浅蓝绿色 */
+.code-color {
+  color: #5abeb7; /* 浅蓝绿色，清新耐看 */
+}
+
+/* 产品名称颜色 - 浅黄棕色 */
+.product-name-color {
+  color: #d4a76a; /* 浅黄棕色，温暖耐看 */
+}
+
 .historical-table {
   width: 100%;
   background: #fff;

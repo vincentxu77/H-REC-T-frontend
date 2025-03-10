@@ -87,8 +87,8 @@ onBeforeUnmount(() => {
 <template>
   <div class="select-none">
     <img :src="bg" class="wave" />
-    <div class="flex-c absolute right-5 top-3">
-      <!-- 主题 -->
+    <!-- <div class="flex-c absolute right-5 top-3">
+      //  主题
       <el-switch
         v-model="dataTheme"
         inline-prompt
@@ -96,7 +96,7 @@ onBeforeUnmount(() => {
         :inactive-icon="darkIcon"
         @change="dataThemeChange"
       />
-      <!-- 国际化 -->
+      //  语言
       <el-dropdown trigger="click">
         <globalization
           class="hover:text-primary hover:!bg-[transparent] w-[20px] h-[20px] ml-1.5 cursor-pointer outline-none duration-300"
@@ -128,7 +128,7 @@ onBeforeUnmount(() => {
           </el-dropdown-menu>
         </template>
       </el-dropdown>
-    </div>
+    </div> -->
     <div class="login-container">
       <div class="img">
         <component :is="toRaw(illustration)" />
