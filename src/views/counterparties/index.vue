@@ -166,7 +166,6 @@ const handleReset = () => {
   min-height: calc(100vh - 150px);
   padding: 20px;
   background: var(--el-bg-color);
-  border: 1px solid var(--el-border-color-lighter);
   border-radius: 4px;
 }
 
@@ -252,7 +251,6 @@ const handleReset = () => {
     padding: 20px;
     margin-bottom: 0;
     color: var(--el-text-color-primary);
-    border-bottom: 1px solid var(--el-border-color-lighter);
   }
 
   :deep(.el-drawer__body) {

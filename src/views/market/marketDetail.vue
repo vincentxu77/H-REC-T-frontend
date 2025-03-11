@@ -618,12 +618,12 @@ onUnmounted(() => {
 
 .buy-direction {
   font-weight: 500;
-  color: #67c23a;
+  color: #67d231;
 }
 
 .sell-direction {
   font-weight: 500;
-  color: #f56c6c;
+  color: #ff4242;
 }
 
 .action-buttons {
@@ -690,18 +690,18 @@ onUnmounted(() => {
     border-radius: 4px;
 
     &.submit-button {
-      --el-button-bg-color: #32c5ff;
-      --el-button-border-color: #32c5ff;
-      --el-button-hover-bg-color: #2db7e5;
-      --el-button-hover-border-color: #2db7e5;
-      --el-button-active-bg-color: #2aa6d0;
-      --el-button-active-border-color: #2aa6d0;
+      --el-button-bg-color: #336cfb;
+      --el-button-border-color: #336cfb;
+      --el-button-hover-bg-color: #2c5ed7;
+      --el-button-hover-border-color: #2c5ed7;
+      --el-button-active-bg-color: #2753c2;
+      --el-button-active-border-color: #2753c2;
       --el-button-text-color: #fff;
     }
 
     &--danger {
-      --el-button-bg-color: #f56c6c;
-      --el-button-border-color: #f56c6c;
+      --el-button-bg-color: #ff4242;
+      --el-button-border-color: #ff4242;
       --el-button-hover-bg-color: #db5c5c;
       --el-button-hover-border-color: #db5c5c;
       --el-button-active-bg-color: #c45151;
@@ -710,8 +710,8 @@ onUnmounted(() => {
     }
 
     &--success {
-      --el-button-bg-color: #67c23a;
-      --el-button-border-color: #67c23a;
+      --el-button-bg-color: #67d231;
+      --el-button-border-color: #67d231;
       --el-button-hover-bg-color: #5daf34;
       --el-button-hover-border-color: #5daf34;
       --el-button-active-bg-color: #529a2e;

@@ -66,7 +66,6 @@ const tableData = computed(() => props.data);
       :data="tableData"
       style="width: 100%"
       :border="true"
-      :stripe="true"
       highlight-current-row
       @row-click="handleRowClick"
     >
@@ -128,12 +127,12 @@ const tableData = computed(() => props.data);
 <style scoped>
 /* 标的物代码颜色 - 浅蓝绿色 */
 .code-color {
-  color: #5abeb7; /* 浅蓝绿色，清新耐看 */
+  color: #38f2e5; /* 浅蓝绿色，清新耐看 */
 }
 
 /* 产品名称颜色 - 浅黄棕色 */
 .product-name-color {
-  color: #d4a76a; /* 浅黄棕色，温暖耐看 */
+  color: #f0b90b; /* 浅黄棕色，温暖耐看 */
 }
 
 .trade-table {

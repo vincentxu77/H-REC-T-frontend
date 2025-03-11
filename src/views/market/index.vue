@@ -609,7 +609,6 @@ watch(
   padding: 20px;
   margin: 50px 24px 0 !important;
   background: var(--el-bg-color);
-  border: 1px solid var(--el-border-color-lighter);
   border-radius: 4px;
 }
 

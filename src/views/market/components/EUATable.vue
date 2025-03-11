@@ -168,11 +168,11 @@ const handleRowClick = (row: EUAData) => {
 
 /* 保持原有的涨跌颜色样式 */
 .up {
-  color: #67c23a;
+  color: #67d231;
 }
 
 .down {
-  color: #f56c6c;
+  color: #ff4242;
 }
 
 .stable {
@@ -185,11 +185,11 @@ const handleRowClick = (row: EUAData) => {
 
 /* 标的物代码颜色 - 浅蓝绿色 */
 .code-color {
-  color: #5abeb7; /* 浅蓝绿色，清新耐看 */
+  color: #38f2e5; /* 浅蓝绿色，清新耐看 */
 }
 
 /* 产品名称颜色 - 浅黄棕色 */
 .product-name-color {
-  color: #d4a76a; /* 浅黄棕色，温暖耐看 */
+  color: #f0b90b; /* 浅黄棕色，温暖耐看 */
 }
 </style>

@@ -219,7 +219,6 @@ const tableData = computed(() => {
 .type-cell {
   display: flex;
   align-items: flex-start;
-  min-height: 40px;
 }
 
 .type-text {
@@ -245,11 +244,11 @@ const tableData = computed(() => {
 }
 
 .traded-price.up {
-  color: #67c23a;
+  color: #67d231;
 }
 
 .traded-price.down {
-  color: #f56c6c;
+  color: #ff4242;
 }
 
 .traded-price.stable {
@@ -262,11 +261,11 @@ const tableData = computed(() => {
 }
 
 .trend-icon.up {
-  color: #67c23a;
+  color: #67d231;
 }
 
 .trend-icon.down {
-  color: #f56c6c;
+  color: #ff4242;
 }
 
 .trend-icon.stable {
@@ -290,19 +289,19 @@ const tableData = computed(() => {
 }
 
 .price-change.up {
-  color: #67c23a;
+  color: #67d231;
 }
 
 .price-change.down {
-  color: #f56c6c;
+  color: #ff4242;
 }
 
 .up {
-  color: #67c23a;
+  color: #67d231;
 }
 
 .down {
-  color: #f56c6c;
+  color: #ff4242;
 }
 
 .stable {
@@ -311,11 +310,11 @@ const tableData = computed(() => {
 
 /* 标的物代码颜色 - 浅蓝绿色 */
 .code-color {
-  color: #5abeb7; /* 浅蓝绿色，清新耐看 */
+  color: #38f2e5; /* 浅蓝绿色，清新耐看 */
 }
 
 /* 产品名称颜色 - 浅黄棕色 */
 .product-name-color {
-  color: #d4a76a; /* 浅黄棕色，温暖耐看 */
+  color: #f0b90b; /* 浅黄棕色，温暖耐看 */
 }
 </style>

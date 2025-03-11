@@ -311,7 +311,6 @@ defineExpose({
     var(--el-bg-color),
     var(--el-bg-color-overlay)
   );
-  border: 1px solid var(--el-border-color);
   box-shadow: 0 2px 12px 0 var(--el-box-shadow);
   transition: top 0.3s ease-in-out;
 }
