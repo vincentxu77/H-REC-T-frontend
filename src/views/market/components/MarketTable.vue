@@ -77,7 +77,7 @@ const tableData = computed(() => {
         </div>
       </template>
     </el-table-column>
-    <el-table-column prop="date" label="到期时间" min-width="100" />
+    <el-table-column prop="date" label="到期时间" min-width="120" />
     <el-table-column
       label="最新成交"
       min-width="140"
