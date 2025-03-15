@@ -6,6 +6,7 @@ interface PositionData {
   "CCER-24M": number;
   "CCER-36M": number;
   EUA: number;
+  SAF: number;
 }
 
 // 生成随机初始持仓数据
@@ -14,7 +15,8 @@ const generateRandomPositions = (): PositionData => {
     "CCER-12M": Math.floor(Math.random() * 300) + 800, // 800-1100手
     "CCER-24M": Math.floor(Math.random() * 200) + 500, // 500-700手
     "CCER-36M": Math.floor(Math.random() * 150) + 200, // 200-350手
-    EUA: Math.floor(Math.random() * 200) + 400 // 400-600手
+    EUA: Math.floor(Math.random() * 200) + 400, // 400-600手
+    SAF: Math.floor(Math.random() * 300) + 900 // 900-1200手
   };
 };
 
@@ -276,6 +278,11 @@ defineExpose({
             <div class="position-item">
               <span class="label">EUA</span>
               <span class="value">{{ formatNumber(positions["EUA"]) }}</span>
+              <span class="unit">手</span>
+            </div>
+            <div class="position-item">
+              <span class="label">SAF</span>
+              <span class="value">{{ formatNumber(positions["SAF"]) }}</span>
               <span class="unit">手</span>
             </div>
           </div>

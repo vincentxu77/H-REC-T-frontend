@@ -2,16 +2,18 @@
 import { ref, onMounted, watch, inject } from "vue";
 import MarketDetail from "./marketDetail.vue";
 import EUADetail from "./components/EUADetail.vue";
+import SAFDetail from "./components/SAFDetail.vue";
 import MarketTable from "./components/MarketTable.vue";
 import EUATable from "./components/EUATable.vue";
-import type { MarketData, EUAData } from "./types";
+import SAFTable from "./components/SAFTable.vue";
+import type { MarketData, EUAData, SAFData } from "./types";
 
 defineOptions({
   name: "Market"
 });
 
 const drawerVisible = ref(false);
-const currentRow = ref<MarketData | EUAData | null>(null);
+const currentRow = ref<MarketData | EUAData | SAFData | null>(null);
 const activeMarket = ref("CCER-12M");
 
 // 获取父组件的 PositionSummary 引用，并指定类型
@@ -416,6 +418,75 @@ const euaTableData = ref<EUAData[]>([
   }
 ]);
 
+// SAF数据
+const safTableData = ref<SAFData[]>([
+  {
+    productName: "SAF HEFA-SPK",
+    date: "2024-12-31",
+    openPrice: 1250.45,
+    lastPrice: 1275.8,
+    highPrice: 1280.25,
+    lowPrice: 1245.6,
+    volume: 8520,
+    change: 2.03,
+    feedstock: "废弃食用油",
+    carbonIntensity: 22.5,
+    certification: "ISCC"
+  },
+  {
+    productName: "SAF ATJ-SPK",
+    date: "2025-03-31",
+    openPrice: 1320.75,
+    lastPrice: 1305.4,
+    highPrice: 1325.3,
+    lowPrice: 1300.2,
+    volume: 6450,
+    change: -1.16,
+    feedstock: "农业残余物",
+    carbonIntensity: 25.8,
+    certification: "RSB"
+  },
+  {
+    productName: "SAF FT-SPK",
+    date: "2025-06-30",
+    openPrice: 1180.3,
+    lastPrice: 1195.65,
+    highPrice: 1200.1,
+    lowPrice: 1175.4,
+    volume: 7320,
+    change: 1.3,
+    feedstock: "林业残余物",
+    carbonIntensity: 18.2,
+    certification: "ISCC"
+  },
+  {
+    productName: "SAF HEFA-SPK+",
+    date: "2025-09-30",
+    openPrice: 1290.5,
+    lastPrice: 1310.25,
+    highPrice: 1315.8,
+    lowPrice: 1285.3,
+    volume: 5840,
+    change: 1.53,
+    feedstock: "藻类油脂",
+    carbonIntensity: 15.6,
+    certification: "RSB"
+  },
+  {
+    productName: "SAF SIP",
+    date: "2025-12-31",
+    openPrice: 1350.2,
+    lastPrice: 1335.75,
+    highPrice: 1355.4,
+    lowPrice: 1330.6,
+    volume: 4920,
+    change: -1.07,
+    feedstock: "糖类",
+    carbonIntensity: 28.3,
+    certification: "CORSIA"
+  }
+]);
+
 // 从localStorage获取表格数据
 const getTableDataFromStorage = () => {
   const stored = localStorage.getItem("marketTableData");
@@ -437,7 +508,8 @@ const saveTableDataToStorage = () => {
       "CCER-12M": ccer12TableData.value,
       "CCER-24M": ccer24TableData.value,
       "CCER-36M": ccer36TableData.value,
-      EUA: euaTableData.value
+      EUA: euaTableData.value,
+      SAF: safTableData.value
     };
     localStorage.setItem("marketTableData", JSON.stringify(data));
   } catch (e) {
@@ -446,10 +518,13 @@ const saveTableDataToStorage = () => {
 };
 
 // 处理行点击事件
-const handleRowClick = (row: MarketData | EUAData) => {
+const handleRowClick = (row: MarketData | EUAData | SAFData) => {
   if ("projectName" in row) {
     // 处理 CCER 数据
     currentRow.value = row as MarketData;
+  } else if ("feedstock" in row) {
+    // 处理 SAF 数据
+    currentRow.value = row as SAFData;
   } else {
     // 处理 EUA 数据
     currentRow.value = row as EUAData;
@@ -458,7 +533,7 @@ const handleRowClick = (row: MarketData | EUAData) => {
 };
 
 // 处理数据更新
-const handleDataUpdate = (updatedRow: MarketData | EUAData) => {
+const handleDataUpdate = (updatedRow: MarketData | EUAData | SAFData) => {
   if ("projectName" in updatedRow) {
     // 处理 CCER 数据
     const prefix =
@@ -493,6 +568,23 @@ const handleDataUpdate = (updatedRow: MarketData | EUAData) => {
       const volumeChange = (updatedRow as MarketData).bidQty - oldRow.bidQty;
       if (volumeChange !== 0) {
         positionSummaryRef.value?.updatePosition(prefix, volumeChange);
+      }
+    }
+  } else if ("feedstock" in updatedRow) {
+    // 处理 SAF 数据
+    const index = safTableData.value.findIndex(
+      item => item.productName === (updatedRow as SAFData).productName
+    );
+    if (index !== -1) {
+      const oldRow = safTableData.value[index];
+      safTableData.value[index] = updatedRow as SAFData;
+
+      // 计算持仓变化
+      const volumeChange =
+        Math.floor((updatedRow as SAFData).volume / 100) -
+        Math.floor(oldRow.volume / 100);
+      if (volumeChange !== 0) {
+        positionSummaryRef.value?.updatePosition("SAF", volumeChange);
       }
     }
   } else {
@@ -532,7 +624,13 @@ onMounted(() => {
 
 // 监听表格数据变化
 watch(
-  [ccer12TableData, ccer24TableData, ccer36TableData, euaTableData],
+  [
+    ccer12TableData,
+    ccer24TableData,
+    ccer36TableData,
+    euaTableData,
+    safTableData
+  ],
   () => {
     saveTableDataToStorage();
   },
@@ -549,6 +647,7 @@ watch(
         <el-radio-button label="CCER-24M">CCER-24M</el-radio-button>
         <el-radio-button label="CCER-36M">CCER-36M</el-radio-button>
         <el-radio-button label="EUA">EUA</el-radio-button>
+        <el-radio-button label="SAF">SAF</el-radio-button>
       </el-radio-group>
     </div>
 
@@ -573,6 +672,11 @@ watch(
         :data="euaTableData"
         @row-click="handleRowClick"
       />
+      <SAFTable
+        v-if="activeMarket === 'SAF'"
+        :data="safTableData"
+        @row-click="handleRowClick"
+      />
     </div>
 
     <el-drawer
@@ -595,7 +699,16 @@ watch(
         @update:row="handleDataUpdate"
       />
       <EUADetail
-        v-if="currentRow && 'productName' in currentRow"
+        v-if="
+          currentRow &&
+          'productName' in currentRow &&
+          !('feedstock' in currentRow)
+        "
+        :row="currentRow"
+        @update:row="handleDataUpdate"
+      />
+      <SAFDetail
+        v-if="currentRow && 'feedstock' in currentRow"
         :row="currentRow"
         @update:row="handleDataUpdate"
       />
