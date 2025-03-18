@@ -76,9 +76,19 @@ const handleRowClick = (row: SAFData) => {
         <span class="code-color">{{ generateCode(row) }}</span>
       </template>
     </el-table-column>
-    <el-table-column prop="productName" label="标的物名称" min-width="150">
+    <el-table-column prop="productName" label="标的物名称" min-width="120">
       <template #default="{ row }">
         <span class="product-name-color">{{ row.productName }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column
+      prop="certification"
+      label="认证标准"
+      align="center"
+      min-width="120"
+    >
+      <template #default="{ row }">
+        <el-tag size="small" type="info">{{ row.certification }}</el-tag>
       </template>
     </el-table-column>
     <el-table-column
@@ -162,16 +172,6 @@ const handleRowClick = (row: SAFData) => {
         }}</span>
       </template>
     </el-table-column>
-    <el-table-column
-      prop="certification"
-      label="认证标准"
-      align="center"
-      min-width="130"
-    >
-      <template #default="{ row }">
-        <el-tag size="small" type="info">{{ row.certification }}</el-tag>
-      </template>
-    </el-table-column>
   </el-table>
 </template>
 
@@ -233,5 +233,10 @@ const handleRowClick = (row: SAFData) => {
 /* 碳强度颜色 - 浅绿色 */
 .carbon-intensity {
   color: #4cd964; /* 浅绿色，环保主题 */
+}
+
+/* 自定义info类型标签的颜色 */
+:deep(.el-tag--info) {
+  color: #fff; /* 更亮的文字颜色 */
 }
 </style>
