@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, computed, onUnmounted } from "vue";
+import { hasPerms } from "@/utils/auth";
 
 interface PositionData {
   "CCER-12M": number;
@@ -280,7 +281,10 @@ defineExpose({
               <span class="value">{{ formatNumber(positions["EUA"]) }}</span>
               <span class="unit">手</span>
             </div>
-            <div class="position-item">
+            <div
+              v-if="!hasPerms('permission:btn:delete')"
+              class="position-item"
+            >
               <span class="label">SAF</span>
               <span class="value">{{ formatNumber(positions["SAF"]) }}</span>
               <span class="unit">手</span>

@@ -7,6 +7,7 @@ import MarketTable from "./components/MarketTable.vue";
 import EUATable from "./components/EUATable.vue";
 import SAFTable from "./components/SAFTable.vue";
 import type { MarketData, EUAData, SAFData } from "./types";
+import { hasPerms } from "@/utils/auth";
 
 defineOptions({
   name: "Market"
@@ -708,7 +709,9 @@ watch(
         <el-radio-button label="CCER-24M">CCER-24M</el-radio-button>
         <el-radio-button label="CCER-36M">CCER-36M</el-radio-button>
         <el-radio-button label="EUA">EUA</el-radio-button>
-        <el-radio-button label="SAF">SAF</el-radio-button>
+        <el-radio-button v-if="!hasPerms('permission:btn:delete')" label="SAF">
+          SAF
+        </el-radio-button>
       </el-radio-group>
     </div>
 

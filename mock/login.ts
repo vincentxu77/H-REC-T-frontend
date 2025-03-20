@@ -27,8 +27,8 @@ export default defineFakeRoute([
           success: true,
           data: {
             avatar: "/H-REC-T-frontend/user.jpg",
-            username: "common",
-            nickname: "jack",
+            username: "demo",
+            nickname: "demo",
             roles: ["common"],
             permissions: ["permission:btn:add", "permission:btn:edit"],
             accessToken: "eyJhbGciOiJIUzUxMiJ9.common",
