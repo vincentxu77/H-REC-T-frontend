@@ -709,9 +709,7 @@ watch(
         <el-radio-button label="CCER-24M">CCER-24M</el-radio-button>
         <el-radio-button label="CCER-36M">CCER-36M</el-radio-button>
         <el-radio-button label="EUA">EUA</el-radio-button>
-        <el-radio-button v-if="!hasPerms('permission:btn:delete')" label="SAF">
-          SAF
-        </el-radio-button>
+        <el-radio-button label="SAF">SAF</el-radio-button>
       </el-radio-group>
     </div>
 

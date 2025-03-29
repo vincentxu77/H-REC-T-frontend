@@ -281,10 +281,7 @@ defineExpose({
               <span class="value">{{ formatNumber(positions["EUA"]) }}</span>
               <span class="unit">手</span>
             </div>
-            <div
-              v-if="!hasPerms('permission:btn:delete')"
-              class="position-item"
-            >
+            <div class="position-item">
               <span class="label">SAF</span>
               <span class="value">{{ formatNumber(positions["SAF"]) }}</span>
               <span class="unit">手</span>
